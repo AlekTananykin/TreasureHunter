@@ -14,21 +14,35 @@ namespace Assets.Code.Controllers
 
     internal sealed class PlayerController : IExecute, IInitialization
     {
-        public IPlayerInput Input { get; set; }
+        private IPlayerInput _input;
+        Camera _camera;
+
+        internal PlayerController(IPlayerInput input, GameObject camera)
+        {
+            _input = input;
+            _camera = camera.GetComponent<Camera>();
+        }
 
         public void Initialize()
         {
-            if (null == Input)
+            if (null == _input || null == _camera)
                 throw new GameException(
                     "PlayerController: input is absent. ");
         }
 
         public void Execute(float deltaTime)
         {
-            throw new GameException("");
+            if (!_input.IsSelected)
+                return;
+
+            Ray ray = _camera.ScreenPointToRay(
+                new Vector3(_input.MoveX, _input.MoveY, 0));
+
+            if (!Physics.Raycast(ray, out RaycastHit hit))
+                return;
+            
+            Select_Point(hit.collider.transform.position);
         }
-
-
 
         public SelectPoint Select_Point;
     }

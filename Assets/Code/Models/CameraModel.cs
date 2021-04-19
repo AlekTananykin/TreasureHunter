@@ -8,9 +8,13 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    class CameraModel : ICameraModel
+    class CameraModel
     {
         public float Speed { get; set; }
         public Vector3 InitPosition { get; set; }
+
+        public Vector3 Forward { get; set; }
+        
+        public float Height { get; set; }
     }
 }

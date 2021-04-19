@@ -20,6 +20,7 @@ namespace Assets.Code.Controllers
             _executeStorage = new List<IExecute>();
             _intializeStorage = new List<IInitialization>();
             _cleanupStorage = new List<ICleanup>();
+            _lateExecuteStorage = new List<ILateExecute>();
         }
 
         public void Add(IInteractionObject interactionObject)

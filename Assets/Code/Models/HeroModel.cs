@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    class HeroModel
+    internal class HeroModel
     {
-        public Vector3 Position { get; set; }
+        public Vector3 InitPosition { get; set; }
         public float Speed { get; set; }
 
         public int Health { get; set; }

@@ -15,7 +15,7 @@ namespace Assets.Code.Views
         {
             if (null == _hero)
             {
-                GameObject heroPrefab = (GameObject)Resources.Load("Prefabs\\Hero");
+                GameObject heroPrefab = (GameObject)Resources.Load("Prefabs/Heroes/Hero");
                 if (null == heroPrefab)
                 {
                     throw new GameException("CreateHero: Hero prefab is not found. ");
@@ -30,7 +30,7 @@ namespace Assets.Code.Views
         {
             if (null == _camera)
             {
-                GameObject cameraPrefab = (GameObject)Resources.Load("Prefabs\\Camera");
+                GameObject cameraPrefab = (GameObject)Resources.Load("Prefabs/Player/Main Camera");
                 if (null == cameraPrefab)
                 {
                     throw new GameException("CreateCamera: Camera prefab is not found. ");

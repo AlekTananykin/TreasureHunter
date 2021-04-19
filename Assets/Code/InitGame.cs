@@ -12,8 +12,9 @@ namespace Assets.Code
             IPlayerInput playerInput)
         {
             ViewsFabric viewsFabric = new ViewsFabric();
-
-            InitializeCameraAndPlayer(viewsFabric, controllers, model, playerInput);
+            
+            InitializeCameraAndPlayer(viewsFabric, 
+                controllers, model, playerInput);
         }
 
         private void InitializeCameraAndPlayer(
@@ -21,17 +22,16 @@ namespace Assets.Code
             ControllersStorage controllers, GameModel model,
             IPlayerInput playerInput)
         {
-            var player = new PlayerController() 
-                { Input = playerInput};
-
             GameObject heroView = viewsFabric.CreateHero();
-            var hero = new HeroController() 
-                {View = heroView, Model = model.Hero };
+            heroView.transform.position = model.Hero. InitPosition;
+            var hero = new HeroController(model.Hero, heroView);
 
+           
             GameObject cameraView = viewsFabric.CreateCamera();
-            var camera = new CameraController() { 
-                View = cameraView, Model = model.CameraModel};
+            cameraView.transform.position = model.Camera.InitPosition;
+            var camera = new CameraController(model.Camera, cameraView);
 
+            var player = new PlayerController(playerInput, cameraView);
             player.Select_Point += hero.AddNewTargetPoint;
             player.Select_Point += camera.AddNewTargetPosition;
 

@@ -9,9 +9,7 @@ namespace Assets.Code.Models
 {
     internal sealed class GameModel
     {
-        public ICameraModel CameraModel { get; set; }
-        public IHeroModel Hero { get; set; }
-
-
+        public CameraModel Camera { get; set; }
+        public HeroModel Hero { get; set; }
     }
 }

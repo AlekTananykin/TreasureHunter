@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
+using Assets.Code.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,25 +13,31 @@ namespace Assets.Code.Controllers
 {
     internal sealed class CameraController : IInitialization, IExecute
     {
-        public GameObject View { get; set; }
-        public ICameraModel Model {get;set;}
+        public GameObject _view;
+        public CameraModel _model;
 
 
         private Leash _leash;
 
+        internal CameraController(CameraModel model, GameObject view)
+        {
+            _view = view;
+            _model = model;
+        }
 
         public void Execute(float deltaTime)
         {
-            View.transform.position = _leash.Execute(deltaTime, Model.Speed);
+            _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
         }
 
         public void Initialize()
         {
-            if (null == View || null == Model)
+            if (null == _view || null == _model)
                 throw new GameException(this.ToString() + ": is not ready. ");
 
-            View.transform.position = Model.InitPosition;
-            _leash = new Leash(Model.InitPosition);
+            _view.transform.position = _model.InitPosition;
+            _view.transform.forward = _model.Forward;
+            _leash = new Leash(_model.InitPosition);
         }
 
         public void AddNewTargetPosition(Vector3 position)

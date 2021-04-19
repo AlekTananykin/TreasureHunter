@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Code.PlayerInput
 {
     interface IPlayerInput
     {
-        bool SelectTarget { get; }
+        float MoveX { get; }
+        float MoveY { get; }
 
+        bool IsSelected { get; }
     }
 }

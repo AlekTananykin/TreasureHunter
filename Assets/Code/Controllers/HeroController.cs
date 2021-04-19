@@ -13,11 +13,18 @@ namespace Assets.Code.Controllers
 {
     internal sealed class HeroController: IExecute, IInitialization
     {
-        private IHeroModel _model;
+        private HeroModel _model;
         private GameObject _view;
 
-        public IHeroModel Model { set => _model = value; }
-        public GameObject View { set => _view = value; }
+
+        internal HeroController(HeroModel model, GameObject view)
+        {
+            _model = model;
+            _view = view;
+
+            if (null == _model || null == _view)
+                throw new Exception("PlayerController is not ready. ");
+        }
 
         Leash _leash;
         
@@ -28,11 +35,8 @@ namespace Assets.Code.Controllers
 
         public void Initialize()
         {
-            if (null == _model || null == _view )
-                throw new Exception("PlayerController is not ready. ");
-
-            _view.transform.position = _model.Position;
-            _leash = new Leash(_model.Position);
+            _view.transform.position = _model.InitPosition;
+            _leash = new Leash(_model.InitPosition);
         }
 
         public void AddNewTargetPoint(Vector3 point)
