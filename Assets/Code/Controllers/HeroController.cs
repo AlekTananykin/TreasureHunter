@@ -36,11 +36,10 @@ namespace Assets.Code.Controllers
         public void Initialize()
         {
             _view.transform.position = _model.InitPosition;
-            Renderer meshRenderer = _view.GetComponent<Renderer>();
-            _ceenterY = meshRenderer.bounds.center.y;
+            CapsuleCollider collider = _view.GetComponent<CapsuleCollider>();
+            _ceenterY = collider.bounds.size.y / 2;
 
             _leash = new Leash(_model.InitPosition);
-
         }
 
         public void AddNewTargetPoint(Vector3 position)
@@ -48,6 +47,8 @@ namespace Assets.Code.Controllers
             Vector3 heroNewPosition = new Vector3(position.x,
                 position.y + _ceenterY,
                 position.z);
+
+            Debug.Log(_ceenterY);
 
             _leash.AddPoint(heroNewPosition);
         }

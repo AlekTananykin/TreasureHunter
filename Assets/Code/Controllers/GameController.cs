@@ -12,10 +12,11 @@ namespace Assets.Code.Controllers
         private ControllersStorage _controllersStorage;
         private GameModel _gameModel;
         private IPlayerInput _playerInput;
-
+        private GameModelFabric _gameModeFabric;
         void Start()
         {
-            InitGameModel(out _gameModel);
+            _gameModeFabric = new GameModelFabric();
+            _gameModeFabric.InitGameModel(out _gameModel);
 
             _controllersStorage = new ControllersStorage();
             _playerInput = new PlayerPcInput();
@@ -35,26 +36,6 @@ namespace Assets.Code.Controllers
         public void OnDestroy()
         {
             _controllersStorage.Cleanup();
-        }
-
-        void InitGameModel(out GameModel model)
-        {
-            model = new GameModel();
-
-            model.Hero = new HeroModel();
-            model.Hero.Health = 100;
-            model.Hero.MaxHealth = 100;
-            model.Hero.InitPosition = new Vector3(10, 3, 10);
-            model.Hero.Skill = 20;
-            model.Hero.Speed = 5;
-
-            model.Camera = new CameraModel();
-            model.Camera.Forward = Vector3.down;
-            model.Camera.Height = 30f;
-            model.Camera.InitPosition = new Vector3(
-                model.Hero.InitPosition.x,
-                model.Camera.Height, model.Hero.InitPosition.z);
-            model.Camera.Speed = 10f;
         }
     }
 }

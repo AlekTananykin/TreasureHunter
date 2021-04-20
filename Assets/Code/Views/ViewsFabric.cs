@@ -15,7 +15,8 @@ namespace Assets.Code.Views
         {
             if (null == _hero)
             {
-                GameObject heroPrefab = (GameObject)Resources.Load("Prefabs/Heroes/Hero");
+                GameObject heroPrefab = 
+                    (GameObject)Resources.Load("Prefabs/Heroes/Hero");
                 if (null == heroPrefab)
                 {
                     throw new GameException("CreateHero: Hero prefab is not found. ");
@@ -30,7 +31,8 @@ namespace Assets.Code.Views
         {
             if (null == _camera)
             {
-                GameObject cameraPrefab = (GameObject)Resources.Load("Prefabs/Player/Main Camera");
+                GameObject cameraPrefab = 
+                    (GameObject)Resources.Load("Prefabs/Player/Main Camera");
                 if (null == cameraPrefab)
                 {
                     throw new GameException("CreateCamera: Camera prefab is not found. ");
@@ -39,5 +41,25 @@ namespace Assets.Code.Views
             }
             return _camera;
         }
+
+        private GameObject _pathMarkPrefab;
+        internal GameObject CreatePathMark()
+        {
+            return CreateObjectFromFile(
+                ref _pathMarkPrefab, "Prefabs/Heroes/PathMark");
+        }
+
+        GameObject CreateObjectFromFile(ref GameObject prefab, string prefabPath)
+        {
+            if (null == prefab)
+            {
+                prefab = (GameObject)Resources.Load(prefabPath);
+                if (null == prefab)
+                    throw new GameException("CreateObjectFromFile: " +
+                        "Prefab can't be loaded from file \"" + prefabPath + "\"");
+            }
+            return GameObject.Instantiate(prefab);
+        }
+
     }
 }

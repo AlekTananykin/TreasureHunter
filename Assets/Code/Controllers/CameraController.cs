@@ -16,7 +16,6 @@ namespace Assets.Code.Controllers
         public GameObject _view;
         public CameraModel _model;
 
-
         private Leash _leash;
 
         internal CameraController(CameraModel model, GameObject view)
@@ -42,7 +41,7 @@ namespace Assets.Code.Controllers
 
         public void AddNewTargetPosition(Vector3 position)
         {
-            Vector3 cameraNewPosition = new Vector3(position.x, 
+            Vector3 cameraNewPosition = new Vector3(position.x,
                 _model.Height, 
                 position.z);
 
