@@ -46,7 +46,7 @@ namespace Assets.Code.Controllers
             model.Hero.MaxHealth = 100;
             model.Hero.InitPosition = new Vector3(10, 3, 10);
             model.Hero.Skill = 20;
-            model.Hero.Speed = 10;
+            model.Hero.Speed = 5;
 
             model.Camera = new CameraModel();
             model.Camera.Forward = Vector3.down;
@@ -54,7 +54,7 @@ namespace Assets.Code.Controllers
             model.Camera.InitPosition = new Vector3(
                 model.Hero.InitPosition.x,
                 model.Camera.Height, model.Hero.InitPosition.z);
-            model.Camera.Speed = 15f;
+            model.Camera.Speed = 10f;
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Assets.Code.Auxiliary
         {
             _lastPoint = new Vector3(currentPoint.x, currentPoint.y, currentPoint.z);
             _targetDistance = 0;
+            _treveledDistance = 0;
         }
 
         public Vector3 Execute(float deltaTime, float speed)
@@ -35,13 +36,16 @@ namespace Assets.Code.Auxiliary
 
             _treveledDistance = Mathf.Clamp(
                 _treveledDistance + speed * deltaTime, 0, _targetDistance);
+
             const float eps = 0.01f;
+
             if (_targetDistance <= eps ||
                 Math.Abs(_treveledDistance - _targetDistance) <= eps)
             {
                 _lastPoint = _targetPoints.Dequeue();
                 _targetDistance = 0;
-                
+                _treveledDistance = 0;
+
                 return _lastPoint;
             }
 

@@ -12,6 +12,6 @@ namespace Assets.Code.PlayerInput
         float MoveX { get; }
         float MoveY { get; }
 
-        bool IsSelected { get; }
+        bool GetClickPosition(ref Vector3 position);
     }
 }

@@ -42,7 +42,11 @@ namespace Assets.Code.Controllers
 
         public void AddNewTargetPosition(Vector3 position)
         {
-            _leash.AddPoint(position);
+            Vector3 cameraNewPosition = new Vector3(position.x, 
+                _model.Height, 
+                position.z);
+
+            _leash.AddPoint(cameraNewPosition);
         }
     }
 }

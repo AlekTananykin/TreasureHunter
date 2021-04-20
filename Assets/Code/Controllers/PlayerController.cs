@@ -32,16 +32,22 @@ namespace Assets.Code.Controllers
 
         public void Execute(float deltaTime)
         {
-            if (!_input.IsSelected)
+            Vector3 position = new Vector3();
+            if (!_input.GetClickPosition(ref position))
                 return;
 
-            Ray ray = _camera.ScreenPointToRay(
-                new Vector3(_input.MoveX, _input.MoveY, 0));
+            Ray ray = _camera.ScreenPointToRay(position);
 
+            Debug.Log(position);
+            Debug.DrawRay(ray.origin, ray.direction, Color.red);
+            
             if (!Physics.Raycast(ray, out RaycastHit hit))
                 return;
-            
-            Select_Point(hit.collider.transform.position);
+
+            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            go.transform.position = hit.point;
+
+            Select_Point(hit.point);
         }
 
         public SelectPoint Select_Point;

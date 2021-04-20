@@ -11,6 +11,15 @@ namespace Assets.Code.PlayerInput
     {
         public float MoveX => Input.GetAxis("Mouse X");
         public float MoveY => Input.GetAxis("Mouse Y");
-        public bool IsSelected => Input.GetMouseButtonDown(0);
+        
+
+        public bool GetClickPosition(ref Vector3 position)
+        {
+            if (!Input.GetMouseButtonUp(0))
+                return false;
+
+            position = Input.mousePosition;
+            return true;
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Assets.Code.Controllers
     {
         private HeroModel _model;
         private GameObject _view;
-
+        private float _ceenterY;
 
         internal HeroController(HeroModel model, GameObject view)
         {
@@ -36,12 +36,20 @@ namespace Assets.Code.Controllers
         public void Initialize()
         {
             _view.transform.position = _model.InitPosition;
+            Renderer meshRenderer = _view.GetComponent<Renderer>();
+            _ceenterY = meshRenderer.bounds.center.y;
+
             _leash = new Leash(_model.InitPosition);
+
         }
 
-        public void AddNewTargetPoint(Vector3 point)
+        public void AddNewTargetPoint(Vector3 position)
         {
-            _leash.AddPoint(point);
+            Vector3 heroNewPosition = new Vector3(position.x,
+                position.y + _ceenterY,
+                position.z);
+
+            _leash.AddPoint(heroNewPosition);
         }
     }
 }
