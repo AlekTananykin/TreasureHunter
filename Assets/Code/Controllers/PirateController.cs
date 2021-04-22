@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class PirateController : IExecute
+    internal sealed class PirateController : IExecute, IInitialization
     {
         IPersonModel _model;
         GameObject _view;
@@ -15,11 +15,15 @@ namespace Assets.Code.Controllers
         {
             _model = model;
             _view = view;
-
         }
 
         public void Execute(float deltaTime)
         {
+        }
+
+        public void Initialize()
+        {
+            _view.transform.position = _model.InitPosition;
         }
     }
 }
