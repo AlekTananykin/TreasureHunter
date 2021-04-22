@@ -13,10 +13,12 @@ namespace Assets.Code.Controllers
         private GameModel _gameModel;
         private IPlayerInput _playerInput;
         private GameModelFabric _gameModeFabric;
+
+        private uint _piratesCount = 1200;
         void Start()
         {
             _gameModeFabric = new GameModelFabric();
-            _gameModeFabric.InitGameModel(out _gameModel);
+            _gameModel = _gameModeFabric.InitGameModel(_piratesCount);
 
             _controllersStorage = new ControllersStorage();
             _playerInput = new PlayerPcInput();

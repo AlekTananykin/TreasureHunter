@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Code.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    internal class HeroModel
+    internal class PersonModel: IPersonModel
     {
         public Vector3 InitPosition { get; set; }
         public float Speed { get; set; }

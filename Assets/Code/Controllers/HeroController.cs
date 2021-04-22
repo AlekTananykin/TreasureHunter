@@ -13,11 +13,11 @@ namespace Assets.Code.Controllers
 {
     internal sealed class HeroController: IExecute, IInitialization
     {
-        private HeroModel _model;
+        private PersonModel _model;
         private GameObject _view;
         private float _ceenterY;
 
-        internal HeroController(HeroModel model, GameObject view)
+        internal HeroController(PersonModel model, GameObject view)
         {
             _model = model;
             _view = view;
