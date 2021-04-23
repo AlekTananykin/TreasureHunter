@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    sealed  internal class TreasureChestModel
+    sealed  internal class ChestModel
     {
-        int Doubloons { get; set; }
+        public int Doubloons { get; set; }
+        public Vector3 Position { get; set; }
     }
 }

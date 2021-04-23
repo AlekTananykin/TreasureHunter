@@ -19,15 +19,62 @@ namespace Assets.Code.Models
             model.Hero = CreateHeroModel();
             model.Camera = CreateCameraModel(model.Hero);
 
+            model.Chests = new ChestModel[piratesNum];
+            for (int i = 0; i < piratesNum; ++i)
+            {
+                model.Chests[i] = CreateChestModel(
+                    GetRandChestPos(model.Hero.InitPosition,
+                    model.Chests, i, _minDistance));
+            }
+
+
             model.Pirates = new PersonModel[piratesNum];
             for (int i = 0; i < piratesNum; ++i)
             {
                 model.Pirates[i] = CreatePirateModel(
-                    GetRandPiratePos(model.Hero.InitPosition, 
-                    model.Pirates, i, _minDistance));
+                    model.Chests[i].Position, _minDistance);
             }
 
             return model;
+        }
+
+        private Vector3 GetRandChestPos(Vector3 heroInitPosition, 
+            ChestModel[] chests, int count, float minDistance)
+        {
+            const int matTryCount = 15;
+            Vector3 pos = new Vector3();
+            for (int i = 0; i < matTryCount; ++i)
+            {
+                pos = new Vector3(_rand.Next(0, _piratesRange),
+                    heroInitPosition.y, _rand.Next(0, _piratesRange));
+
+                if ((heroInitPosition - pos).magnitude < minDistance)
+                    continue;
+
+                if (CheckChestPosition(pos, chests, count, minDistance))
+                    break;
+            }
+            return pos;
+        }
+
+        private bool CheckChestPosition(Vector3 pos, ChestModel[] chests, 
+            int count, float minDistance)
+        {
+            for (int j = 0; j < count; ++j)
+            {
+                if ((chests[j].Position - pos).magnitude < minDistance)
+                    return false;
+            }
+            return true;
+        }
+
+        private ChestModel CreateChestModel(Vector3 position)
+        {
+            return new ChestModel()
+            {
+                Doubloons = _rand.Next(0, 1000),
+                Position = position
+            };
         }
 
         private Vector3 GetRandPiratePos(Vector3 heroInitPosition,
@@ -84,16 +131,26 @@ namespace Assets.Code.Models
             return model;
         }
 
-        private PersonModel CreatePirateModel(Vector3 initPosition)
+        private PersonModel CreatePirateModel(Vector3 chestPosition, float distance)
         {
             var model = new PersonModel();
-            model.Health = 100;
+            
             model.MaxHealth = 100;
-            model.InitPosition = initPosition;
+            model.Health = model.MaxHealth;
+
+
+            model.InitPosition = chestPosition + 
+                Vector3.ClampMagnitude(new Vector3(
+                    (float)_rand.NextDouble() * distance,
+                    0,
+                    (float)_rand.NextDouble() * distance),
+                    distance);
+
+
             model.Skill = 19;
             model.Speed = 7f;
+
             return model;
         }
-
     }
 }

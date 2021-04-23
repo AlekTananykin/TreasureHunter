@@ -14,6 +14,6 @@ namespace Assets.Code.Models
 
         public PersonModel[] Pirates { get; set; }
 
-        public TreasureChestModel[] Chests { get; set; }
+        public ChestModel[] Chests { get; set; }
     }
 }

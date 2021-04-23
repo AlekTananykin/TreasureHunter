@@ -18,6 +18,7 @@ namespace Assets.Code
             InitializeCameraAndPlayer(viewsFabric,
                 controllers, model, playerInput);
 
+            InitializeChests(controllers, model);
             InitializePirates(controllers, model);
         }
 
@@ -59,6 +60,24 @@ namespace Assets.Code
         {
             var pirate = new PirateController(personModel, view);
             controllers.Add(pirate);
+        }
+
+        private void InitializeChests(
+            ControllersStorage controllers, GameModel model)
+        {
+            ChestViewFabric viewFabric = new ChestViewFabric();
+            for (int i = 0; i < model.Chests.Length; ++i)
+            {
+                InitializeSingleChest(model.Chests[i],
+                    viewFabric.CreateGameObject(), controllers);
+            }
+        }
+
+        private void InitializeSingleChest(ChestModel chestModel, 
+            GameObject view, ControllersStorage controllers)
+        {
+            var chest = new ChestController(chestModel, view);
+            controllers.Add(chest);
         }
     }
 }
