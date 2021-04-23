@@ -16,7 +16,7 @@ namespace Assets.Code.Controllers
         public GameObject _view;
         public CameraModel _model;
 
-        private Leash _leash;
+        private QeueLeash _leash;
 
         internal CameraController(CameraModel model, GameObject view)
         {
@@ -36,7 +36,7 @@ namespace Assets.Code.Controllers
 
             _view.transform.position = _model.InitPosition;
             _view.transform.forward = _model.Forward;
-            _leash = new Leash(_model.InitPosition);
+            _leash = new QeueLeash(_model.InitPosition);
         }
 
         public void AddNewTargetPosition(Vector3 position)

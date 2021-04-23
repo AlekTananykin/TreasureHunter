@@ -9,13 +9,14 @@ using UnityEngine;
 
 namespace Assets.Code.Auxiliary
 {
-    internal class Leash
+    internal abstract class Leash<Track>
+        where Track: ITrack, new()
     {
-        private float _treveledDistance;
-        private float _targetDistance;
+        private float _treveledDistance = 0;
+        private float _targetDistance = 0;
 
-        private Vector3 _lastPoint;
-        private Queue<Vector3> _targetPoints = new Queue<Vector3>();
+        protected Vector3 _lastPoint;
+        protected ITrack _track = new Track();
 
         public Leash(Vector3 currentPoint)
         {
@@ -26,13 +27,13 @@ namespace Assets.Code.Auxiliary
 
         public Vector3 Execute(float deltaTime, float speed)
         {
-            if (0 == _targetPoints.Count)
+            if (_track.IsEmpty)
                 return _lastPoint;
 
-            Vector3 currentTarget = _targetPoints.Peek();
+            Vector3 arrivalPoint = _track.GetPoint();
 
             if (0 == _targetDistance)
-                _targetDistance = (_lastPoint - currentTarget).magnitude;
+                _targetDistance = (_lastPoint - arrivalPoint).magnitude;
 
             _treveledDistance = Mathf.Clamp(
                 _treveledDistance + speed * deltaTime, 0, _targetDistance);
@@ -42,7 +43,8 @@ namespace Assets.Code.Auxiliary
             if (_targetDistance <= eps ||
                 Math.Abs(_treveledDistance - _targetDistance) <= eps)
             {
-                _lastPoint = _targetPoints.Dequeue();
+                _lastPoint = arrivalPoint;
+                _track.Next();
                 _targetDistance = 0;
                 _treveledDistance = 0;
 
@@ -50,12 +52,12 @@ namespace Assets.Code.Auxiliary
             }
 
             float t = _treveledDistance / _targetDistance;
-            return Vector3.Lerp(_lastPoint, currentTarget, t);
+            return Vector3.Lerp(_lastPoint, arrivalPoint, t);
         }
 
         public void AddPoint(Vector3 point)
         {
-            _targetPoints.Enqueue(new Vector3(point.x, point.y, point.z));
+            _track.AddPoint(new Vector3(point.x, point.y, point.z));
         }
     }
 }

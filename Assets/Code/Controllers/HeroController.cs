@@ -26,7 +26,7 @@ namespace Assets.Code.Controllers
                 throw new Exception("PlayerController is not ready. ");
         }
 
-        Leash _leash;
+        QeueLeash _leash;
         
         public void Execute(float deltaTime)
         {
@@ -39,7 +39,7 @@ namespace Assets.Code.Controllers
             CapsuleCollider collider = _view.GetComponent<CapsuleCollider>();
             _ceenterY = collider.bounds.size.y / 2;
 
-            _leash = new Leash(_model.InitPosition);
+            _leash = new QeueLeash(_model.InitPosition);
         }
 
         public void AddNewTargetPoint(Vector3 position)
