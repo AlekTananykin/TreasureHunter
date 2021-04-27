@@ -27,9 +27,14 @@ namespace Assets.Code.Controllers
         }
 
         QeueLeash _leash;
-        
+
+        public Action<Vector3, Vector3> Shoot { get; internal set; }
+
         public void Execute(float deltaTime)
         {
+            if (!_leash.IsNeedMove)
+                return;
+
             _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
         }
 
@@ -52,5 +57,17 @@ namespace Assets.Code.Controllers
 
             _leash.AddPoint(heroNewPosition);
         }
+
+        internal void HitToPoint(Vector3 targetPoint)
+        {
+            Shoot?.Invoke(
+                _view.transform.position + Vector3.up * 2, targetPoint);
+        }
+
+        internal Vector3 GetPosition()
+        {
+            return _view.transform.position;
+        }
     }
+
 }

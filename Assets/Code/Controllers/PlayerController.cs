@@ -20,7 +20,8 @@ namespace Assets.Code.Controllers
         GameObjectsPool<PathMarksFabric> _pathMarkPool;
         const uint _marksPoolSize = 5;
 
-        internal PlayerController(IPlayerInput input, GameObject camera)
+        internal PlayerController(
+            IPlayerInput input, GameObject camera)
         {
             _input = input;
             _camera = camera.GetComponent<Camera>();
@@ -42,22 +43,36 @@ namespace Assets.Code.Controllers
                 return;
 
             Ray ray = _camera.ScreenPointToRay(position);
- 
             if (!Physics.Raycast(ray, out RaycastHit hit))
                 return;
 
-            GameObject go = _pathMarkPool.Create();
-            go.transform.position = hit.point;
-            PathMarkScript script = go.GetComponent<PathMarkScript>();
+            if (hit.collider.gameObject.CompareTag("Enemy"))
+                Hit_To_Point(hit.point);
+            else
+                GoToPoint(hit.point);
+        }
+
+        //private void ShootToPoint(Vector3 point, Vector3 targetPoint)
+        //{
+        //    _shootOutSystem.Shoot(point, 
+        //        (targetPoint - point + Vector3.up).normalized);
+        //}
+
+        void GoToPoint(Vector3 point)
+        {
+            GameObject pathMark = _pathMarkPool.Create();
+            pathMark.transform.position = point;
+            PathMarkScript script = pathMark.GetComponent<PathMarkScript>();
             if (null == script)
                 throw new GameException("PathMarkScript is not attached. ");
 
             script.OnPathMatkCall = OnPathMarkTrigger;
 
-            Select_Point(hit.point);
+            Go_To_Point(point);
         }
 
-        public SelectPoint Select_Point;
+        public SelectPoint Go_To_Point;
+        public SelectPoint Hit_To_Point;
         public void OnPathMarkTrigger(GameObject pathObj)
         {
             PathMarkScript script = pathObj.GetComponent<PathMarkScript>();

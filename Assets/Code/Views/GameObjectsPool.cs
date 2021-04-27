@@ -8,12 +8,13 @@ using UnityEngine;
 
 namespace Assets.Code.Views
 {
-    class GameObjectsPool<Fabric> where Fabric: IGameObjectFabric
+    class GameObjectsPool<FabricTemplate> 
+        where FabricTemplate : IGameObjectFabric
     {
-        private Fabric _fabric;
+        private FabricTemplate _fabric;
         private Queue<GameObject> _storage;
         private readonly uint _poolSize;
-        public GameObjectsPool(Fabric fabric, uint poolSize)
+        public GameObjectsPool(FabricTemplate fabric, uint poolSize)
         {
             _fabric = fabric;
             _storage = new Queue<GameObject>();

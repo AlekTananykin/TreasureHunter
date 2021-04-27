@@ -59,5 +59,8 @@ namespace Assets.Code.Auxiliary
         {
             _track.AddPoint(new Vector3(point.x, point.y, point.z));
         }
+
+        public bool IsNeedMove => !_track.IsEmpty;
+        
     }
 }
