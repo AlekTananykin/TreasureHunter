@@ -39,24 +39,22 @@ namespace Assets.Code.Controllers
         public void Execute(float deltaTime)
         {
             Vector3 position = new Vector3();
-            if (!_input.GetClickPosition(ref position))
-                return;
+            _input.GetMousePosition(ref position);
 
             Ray ray = _camera.ScreenPointToRay(position);
             if (!Physics.Raycast(ray, out RaycastHit hit))
                 return;
 
-            if (hit.collider.gameObject.CompareTag("Enemy"))
-                Hit_To_Point(hit.point);
-            else
-                GoToPoint(hit.point);
-        }
+            if (_input.IsLeftMouseClicked())
+            {
+                if (hit.collider.gameObject.CompareTag("Enemy"))
+                    Hit_To_Point?.Invoke(hit.point);
+                else
+                    GoToPoint(hit.point);
+            }
 
-        //private void ShootToPoint(Vector3 point, Vector3 targetPoint)
-        //{
-        //    _shootOutSystem.Shoot(point, 
-        //        (targetPoint - point + Vector3.up).normalized);
-        //}
+            Current_Point?.Invoke(hit.point);
+        }
 
         void GoToPoint(Vector3 point)
         {
@@ -73,6 +71,7 @@ namespace Assets.Code.Controllers
 
         public SelectPoint Go_To_Point;
         public SelectPoint Hit_To_Point;
+        public SelectPoint Current_Point;
         public void OnPathMarkTrigger(GameObject pathObj)
         {
             PathMarkScript script = pathObj.GetComponent<PathMarkScript>();

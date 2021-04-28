@@ -41,12 +41,18 @@ namespace Assets.Code
             cameraView.transform.position = model.Camera.InitPosition;
             var camera = new CameraController(model.Camera, cameraView);
 
+            GameObject zondView = viewsFabric.CreateZond();
+            GameObject frontCameraView = viewsFabric.CreateZond();
+            var zondController = new ZondController(zondView, frontCameraView, heroView);
+
             var player = new PlayerController(playerInput, cameraView);
 
             player.Hit_To_Point += hero.HitToPoint;
             player.Go_To_Point += hero.AddNewTargetPoint;
             player.Go_To_Point += camera.AddNewTargetPosition;
-            
+            player.Current_Point += zondController.SetPosition;
+
+
             controllers.Add(player);
             controllers.Add(hero);
             controllers.Add(camera);

@@ -69,5 +69,4 @@ namespace Assets.Code.Controllers
             return _view.transform.position;
         }
     }
-
 }
