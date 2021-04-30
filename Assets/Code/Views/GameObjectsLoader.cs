@@ -21,7 +21,6 @@ namespace Assets.Code.Views
                         "Prefab can't be loaded from file \"" + prefabPath + "\"");
             }
              var pathMark = GameObject.Instantiate(prefab);
-            pathMark.layer = LayerMask.NameToLayer("Ignore Raycast");
             return pathMark;
         }
     }

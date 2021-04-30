@@ -20,7 +20,6 @@ namespace Assets.Code.Controllers
             _zondView = zondView;
             _zondView.layer = LayerMask.NameToLayer("Ignore Raycast");
             _heroView = heroView;
-
         }
 
         public void Initialize()
@@ -46,8 +45,11 @@ namespace Assets.Code.Controllers
         private void SetCameraCarrier(GameObject cameraCarrier)
         {
             _cameraView.transform.SetParent(cameraCarrier.transform, true);
-            _cameraView.transform.position = Vector3.forward;
-            _cameraView.transform.rotation = Quaternion.Euler(0, 0, 180);
+            
+            Collider carierCollider = cameraCarrier.GetComponent<Collider>();
+            _cameraView.transform.localPosition = new Vector3(0f,
+                carierCollider.bounds.size.y, carierCollider.bounds.size.y * 3f);
+            _cameraView.transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
 
         public void SetPosition(Vector3 position)
