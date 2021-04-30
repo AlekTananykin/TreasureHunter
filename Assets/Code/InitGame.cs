@@ -42,9 +42,9 @@ namespace Assets.Code
             var camera = new CameraController(model.Camera, cameraView);
 
             GameObject zondView = viewsFabric.CreateZond();
-            GameObject frontCameraView = viewsFabric.CreateZond();
-            var zondController = new ZondController(zondView, frontCameraView, heroView);
-
+            GameObject frontCameraView = viewsFabric.CreateFrontCamera();
+            var zondController = new ZondController(frontCameraView, zondView, heroView);
+            
             var player = new PlayerController(playerInput, cameraView);
 
             player.Hit_To_Point += hero.HitToPoint;

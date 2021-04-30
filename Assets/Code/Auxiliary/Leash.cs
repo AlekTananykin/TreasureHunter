@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Assets.Code.Auxiliary
 {
-    internal abstract class Leash<Track>
+    internal abstract class Leash<Track>: ILeash
         where Track: ITrack, new()
     {
         private float _treveledDistance = 0;
@@ -20,7 +20,8 @@ namespace Assets.Code.Auxiliary
 
         public Leash(Vector3 currentPoint)
         {
-            _lastPoint = new Vector3(currentPoint.x, currentPoint.y, currentPoint.z);
+            _lastPoint = new Vector3(currentPoint.x, 
+                currentPoint.y, currentPoint.z);
             _targetDistance = 0;
             _treveledDistance = 0;
         }
@@ -61,6 +62,10 @@ namespace Assets.Code.Auxiliary
         }
 
         public bool IsNeedMove => !_track.IsEmpty;
-        
+
+        public Vector3 GetLastPoint()
+        {
+            return _lastPoint;
+        }
     }
 }

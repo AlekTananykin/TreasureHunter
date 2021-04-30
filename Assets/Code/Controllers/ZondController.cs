@@ -28,6 +28,7 @@ namespace Assets.Code.Controllers
             ZondScript zondScript = _zondView.AddComponent<ZondScript>();
             zondScript.On_Zond_Trigger_Enter += SetCameraCarrier;
             zondScript.On_Zond_Trigger_Exit += UnsetCameraCarrier;
+            SetCameraCarrier(_heroView);
         }
 
         public void Cleanup()
@@ -44,7 +45,7 @@ namespace Assets.Code.Controllers
 
         private void SetCameraCarrier(GameObject cameraCarrier)
         {
-            cameraCarrier.transform.parent = _cameraView.transform;
+            _cameraView.transform.SetParent(cameraCarrier.transform, true);
             _cameraView.transform.position = Vector3.forward;
             _cameraView.transform.rotation = Quaternion.Euler(0, 0, 180);
         }

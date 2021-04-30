@@ -17,6 +17,9 @@ namespace Assets.Code.Controllers
         private GameObject _view;
         private float _ceenterY;
 
+        private QeueLeash _leash;
+        private PersonMover _personMover;
+
         internal HeroController(PersonModel model, GameObject view)
         {
             _model = model;
@@ -26,16 +29,15 @@ namespace Assets.Code.Controllers
                 throw new Exception("PlayerController is not ready. ");
         }
 
-        QeueLeash _leash;
-
         public Action<Vector3, Vector3> Shoot { get; internal set; }
 
         public void Execute(float deltaTime)
         {
-            if (!_leash.IsNeedMove)
+            if (!_personMover.IsNeedMove)
                 return;
 
-            _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
+            (_view.transform.position, _view.transform.forward) = 
+                _personMover.Execute(deltaTime, _model.Speed);
         }
 
         public void Initialize()
@@ -45,6 +47,7 @@ namespace Assets.Code.Controllers
             _ceenterY = collider.bounds.size.y / 2;
 
             _leash = new QeueLeash(_model.InitPosition);
+            _personMover = new PersonMover(_leash, 1f);
         }
 
         public void AddNewTargetPoint(Vector3 position)

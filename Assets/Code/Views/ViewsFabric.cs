@@ -28,6 +28,22 @@ namespace Assets.Code.Views
             return _hero;
         }
 
+        internal GameObject CreateAnastasia()
+        {
+            if (null == _hero)
+            {
+                GameObject heroPrefab =
+                    (GameObject)Resources.Load("Prefabs/Heroes/Anastasiya");
+                if (null == heroPrefab)
+                {
+                    throw new GameException(
+                        "CreateHero: Hero prefab is not found. ");
+                }
+                _hero = (GameObject)GameObject.Instantiate(heroPrefab);
+            }
+            return _hero;
+        }
+
         private GameObject _camera;
         internal GameObject CreateCamera()
         {
