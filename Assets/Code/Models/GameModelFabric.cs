@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Code.Auxiliary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -70,31 +71,30 @@ namespace Assets.Code.Models
 
         private ChestModel CreateChestModel(Vector3 position)
         {
-            return new ChestModel()
-            {
-                Doubloons = _rand.Next(0, 1000),
-                Position = position
-            };
-        }
+            
+            int thingsCount = _rand.Next(0, 5);
+            IDictionary<LootName, int> things = 
+                new Dictionary<LootName, int>();
+            Array values = Enum.GetValues(typeof(LootName));
 
-        private Vector3 GetRandPiratePos(Vector3 heroInitPosition,
-            PersonModel[] piratesPos, int count, float minDistance)
-        {
-            const int matTryCount = 15;
-            Vector3 pos = new Vector3();
-            for(int i = 0; i < matTryCount; ++ i)
+            int thingNumber = 0;
+            while (thingNumber < thingsCount)
             {
-                pos = new Vector3( _rand.Next(0, _piratesRange), 
-                    heroInitPosition.y, _rand.Next(0, _piratesRange));
+                LootName thing = (LootName)values.GetValue(
+                    _rand.Next(values.Length - 1));
 
-                if ((heroInitPosition - pos).magnitude < minDistance)
+                if (things.ContainsKey(thing))
                     continue;
 
-                if (CheckPirates(pos, piratesPos, count, minDistance))
-                    break;
-            } 
+                things.Add(thing, _rand.Next(3));
+                ++thingNumber;
+            }
 
-            return pos;
+            return new ChestModel()
+            {
+                Items = things,
+                Position = position
+            };
         }
 
         private bool CheckPirates(Vector3 pos, PersonModel[] piratesPos, 
@@ -149,6 +149,7 @@ namespace Assets.Code.Models
 
             model.Skill = 19;
             model.Speed = 7f;
+            model.RotationSpeed = 1f;
 
             return model;
         }

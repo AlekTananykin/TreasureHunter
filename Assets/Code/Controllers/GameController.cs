@@ -1,3 +1,4 @@
+using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
 using Assets.Code.Models;
 using Assets.Code.PlayerInput;
@@ -17,14 +18,21 @@ namespace Assets.Code.Controllers
         private uint _piratesCount = 1200;
         void Start()
         {
-            _gameModeFabric = new GameModelFabric();
-            _gameModel = _gameModeFabric.InitGameModel(_piratesCount);
+            try
+            {
+                _gameModeFabric = new GameModelFabric();
+                _gameModel = _gameModeFabric.InitGameModel(_piratesCount);
 
-            _controllersStorage = new ControllersStorage();
-            _playerInput = new PlayerPcInput();
-            new InitGame(_controllersStorage, _gameModel, _playerInput);
+                _controllersStorage = new ControllersStorage();
+                _playerInput = new PlayerPcInput();
+                new InitGame(_controllersStorage, _gameModel, _playerInput);
 
-            _controllersStorage.Initialize();
+                _controllersStorage.Initialize();
+            }
+            catch (GameException ex)
+            {
+                Debug.LogError(ex.Message);
+            }
         }
 
         void Update()

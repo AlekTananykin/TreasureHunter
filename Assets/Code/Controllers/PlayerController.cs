@@ -19,7 +19,7 @@ namespace Assets.Code.Controllers
         Camera _camera;
         GameObjectsPool<PathMarksFabric> _pathMarkPool;
         const uint _marksPoolSize = 5;
-
+        
         internal PlayerController(
             IPlayerInput input, GameObject camera)
         {
@@ -49,12 +49,15 @@ namespace Assets.Code.Controllers
             {
                 if (hit.collider.gameObject.CompareTag("Enemy"))
                     Hit_To_Point?.Invoke(hit.point);
+                else if (hit.collider.gameObject.CompareTag("Loot"))
+                    Take_Loot?.Invoke(hit.point);
                 else
                     GoToPoint(hit.point);
             }
 
             Current_Point?.Invoke(hit.point);
         }
+
 
         void GoToPoint(Vector3 point)
         {
@@ -72,6 +75,7 @@ namespace Assets.Code.Controllers
         public SelectPoint Go_To_Point;
         public SelectPoint Hit_To_Point;
         public SelectPoint Current_Point;
+        public SelectPoint Take_Loot;
         public void OnPathMarkTrigger(GameObject pathObj)
         {
             PathMarkScript script = pathObj.GetComponent<PathMarkScript>();

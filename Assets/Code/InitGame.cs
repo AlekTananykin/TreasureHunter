@@ -49,13 +49,15 @@ namespace Assets.Code
 
             player.Hit_To_Point += hero.HitToPoint;
             player.Go_To_Point += hero.AddNewTargetPoint;
+            player.Take_Loot += hero.TakeLoot;
+
             player.Go_To_Point += camera.AddNewTargetPosition;
             player.Current_Point += zondController.SetPosition;
-
-
+            
             controllers.Add(player);
             controllers.Add(hero);
             controllers.Add(camera);
+            controllers.Add(zondController);
 
             return hero;
         }

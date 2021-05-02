@@ -1,4 +1,5 @@
-﻿using Assets.Code.Interfaces;
+﻿using Assets.Code.Auxiliary;
+using Assets.Code.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,15 @@ namespace Assets.Code.Models
         public int MaxHealth { get; set; }
         
         public int Skill { get; set; }
+
+        public IDictionary<LootName, int> BagItems { get; }
+        public IDictionary<LootName, int> AppliedItems { get; }
+        public float RotationSpeed { get; set; }
+
+        internal PersonModel()
+        {
+            BagItems = new Dictionary<LootName, int>();
+            AppliedItems = new Dictionary<LootName, int>();
+        }
     }
 }

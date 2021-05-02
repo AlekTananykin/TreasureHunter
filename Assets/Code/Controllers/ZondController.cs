@@ -57,6 +57,5 @@ namespace Assets.Code.Controllers
             _zondView.transform.position = position;
         }
 
-
     }
 }

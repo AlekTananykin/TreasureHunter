@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Code.Auxiliary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,8 @@ namespace Assets.Code.Models
 {
     sealed  internal class ChestModel
     {
-        public int Doubloons { get; set; }
+        public IDictionary<LootName, int> Items { get; set; }
+        
         public Vector3 Position { get; set; }
     }
 }

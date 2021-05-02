@@ -1,4 +1,5 @@
-﻿using Assets.Code.Interfaces;
+﻿using Assets.Code.Auxiliary;
+using Assets.Code.Interfaces;
 using Assets.Code.Models;
 using System;
 using System.Collections.Generic;
@@ -9,20 +10,35 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class ChestController : IInitialization
+    internal sealed class ChestController : IInitialization, ICleanup
     {
-        ChestModel _model;
-        GameObject _view;
+        public ChestModel Model { get; }
+        private GameObject _view;
 
         public ChestController(ChestModel model, GameObject view)
         {
-            _model = model;
+            Model = model;
             _view = view;
         }
 
         public void Initialize()
         {
-            _view.transform.position = _model.Position;
+            BagScript storageScript = _view.AddComponent<BagScript>();
+            storageScript.Get_Storage += GetThings;
+
+            _view.transform.position = Model.Position;
+        }
+
+        public IDictionary<LootName, int> GetThings()
+        {
+            return Model.Items;
+        }
+
+        public void Cleanup()
+        {
+            BagScript storageScript = _view.GetComponent<BagScript>();
+            if (null != storageScript?.Get_Storage)
+                storageScript.Get_Storage -= GetThings;
         }
     }
 }
