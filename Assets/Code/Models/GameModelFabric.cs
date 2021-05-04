@@ -1,18 +1,20 @@
 ﻿using Assets.Code.Auxiliary;
+using Assets.Code.Interfaces;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Code.Models
 {
     internal sealed class GameModelFabric
     {
-        System.Random _rand = new System.Random();
-        float _minDistance = 10f;
-        int _piratesRange = 1000;
+        private System.Random _rand = new System.Random();
+        private float _minDistance = 10f;
+        private int _piratesRange = 1000;
+        private IThingsFabric _thingsFabric = new ThingsRandFabric();
+        private const int _maxThingsCount = 3;
+
 
         internal GameModel InitGameModel(uint piratesNum)
         {
@@ -37,6 +39,16 @@ namespace Assets.Code.Models
             }
 
             return model;
+        }
+
+        private ChestModel CreateChestModel(Vector3 position)
+        {
+            return new ChestModel()
+            {
+                Position = position,
+                Items = _thingsFabric.CreateThings(
+                    _rand.Next(_maxThingsCount))
+            };
         }
 
         private Vector3 GetRandChestPos(Vector3 heroInitPosition, 
@@ -69,43 +81,7 @@ namespace Assets.Code.Models
             return true;
         }
 
-        private ChestModel CreateChestModel(Vector3 position)
-        {
-            int thingsCount = _rand.Next(0, 5);
-            IDictionary<LootName, int> things = 
-                new Dictionary<LootName, int>();
-            Array values = Enum.GetValues(typeof(LootName));
-
-            int thingNumber = 0;
-            while (thingNumber < thingsCount)
-            {
-                LootName thing = (LootName)values.GetValue(
-                    _rand.Next(values.Length - 1));
-
-                if (things.ContainsKey(thing))
-                    continue;
-
-                things.Add(thing, _rand.Next(3));
-                ++thingNumber;
-            }
-
-            return new ChestModel()
-            {
-                Items = things,
-                Position = position
-            };
-        }
-
-        private bool CheckPirates(Vector3 pos, PersonModel[] piratesPos, 
-            int count, float minDistance)
-        {
-            for (int j = 0; j < count; ++j)
-            {
-                if ((piratesPos[j].InitPosition - pos).magnitude < minDistance)
-                    return false;
-            }
-            return true;
-        }
+        
 
         private PersonModel CreateHeroModel()
         {

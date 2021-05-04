@@ -15,6 +15,8 @@ namespace Assets.Code.Things
     internal sealed class Thing: IThing
     {
         public LootName Name { get; set; }
+        public int Cost { get; set; }
+        public LootName Target { get; set; }
         public IDictionary<LootProperties, int> Properties{get;}
         public IDictionary<LootName, IThing> Components { get; }
 
