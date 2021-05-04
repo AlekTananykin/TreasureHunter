@@ -71,7 +71,6 @@ namespace Assets.Code.Models
 
         private ChestModel CreateChestModel(Vector3 position)
         {
-            
             int thingsCount = _rand.Next(0, 5);
             IDictionary<LootName, int> things = 
                 new Dictionary<LootName, int>();

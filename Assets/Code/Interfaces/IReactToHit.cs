@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Assets.Code.Interfaces
 {
-    interface IShooter
+    interface IReactToHit
     {
+        void Hit(uint damage);
     }
 }

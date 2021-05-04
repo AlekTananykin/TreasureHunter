@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,15 @@ namespace Assets.Code.Models
         
         public int Skill { get; set; }
 
-        public IDictionary<LootName, int> BagItems { get; }
-        public IDictionary<LootName, int> AppliedItems { get; }
+        public IDictionary<LootName, IList<IThing>> BagItems { get; }
+        public IDictionary<LootName, IThing> AppliedItems { get; }
+
         public float RotationSpeed { get; set; }
 
-        internal PersonModel()
+        public PersonModel()
         {
-            BagItems = new Dictionary<LootName, int>();
-            AppliedItems = new Dictionary<LootName, int>();
+            BagItems = new Dictionary<LootName, IList<IThing>>();
+            AppliedItems = new Dictionary<LootName, IThing>();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Code.Auxiliary
 {
-    public enum LootName 
+    public enum LootName
     {
         kitchenKnife,//
         cleaver,//tesak
@@ -15,7 +15,7 @@ namespace Assets.Code.Auxiliary
         dagger,//kinjal
         twine,//shpagola
         pica,//pika
-       
+
         grenade,
         musket,
         gun,
@@ -27,5 +27,22 @@ namespace Assets.Code.Auxiliary
         doubloons,
 
         boots,
+
+        scope
+    }
+
+    public enum LootProperties
+    {
+        Power,
+        Accuration,
+        MovingSpeed,
+        Health,
+        Force,
+        Armor
+    }
+
+    public enum ActionCode
+    {
+        zero, one, two, three, four, five, six, seven, eight, nine
     }
 }

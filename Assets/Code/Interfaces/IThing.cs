@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Assets.Code.Interfaces
 {
-    interface IStorage
+    public interface IThing: ICloneable
     {
-        IList<IThing> GetItems();
+        LootName Name { get; set; }
+        IDictionary<LootProperties, int> Properties { get; }
+        IDictionary<LootName, IThing> Components { get; }
     }
 }

@@ -35,7 +35,7 @@ namespace Assets.Code
             GameObject heroView = viewsFabric.CreateHero();
             heroView.transform.position = model.Hero.InitPosition;
             var hero = new HeroController(model.Hero, heroView);
-            hero.Shoot += shootOutSystem.Shoot;
+            hero.Attack += shootOutSystem.Attack;
 
             GameObject cameraView = viewsFabric.CreateCamera();
             cameraView.transform.position = model.Camera.InitPosition;
@@ -82,7 +82,7 @@ namespace Assets.Code
         {
             var pirate = new PirateController(personModel, view, hero);
 
-            pirate.Shoot += bombShootout.Shoot;
+            pirate.Attack += bombShootout.Attack;
             controllers.Add(pirate);
         }
 

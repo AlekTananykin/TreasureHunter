@@ -4,11 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate IDictionary<LootName, int> GetStorage();
+public delegate IList<IThing> GetStorage();
 
 public class BagScript : MonoBehaviour, IStorage
 {
-    public IDictionary<LootName, int> GetItems()
+    public IList<IThing> GetItems()
     {
         if (null == Get_Storage)
             return null;

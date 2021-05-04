@@ -29,7 +29,7 @@ namespace Assets.Code.Controllers
             _view.transform.position = Model.Position;
         }
 
-        public IDictionary<LootName, int> GetThings()
+        public IList<IThing> GetThings()
         {
             return Model.Items;
         }

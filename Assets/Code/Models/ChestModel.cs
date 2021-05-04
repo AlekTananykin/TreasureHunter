@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Auxiliary;
+using Assets.Code.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Assets.Code.Models
 {
     sealed  internal class ChestModel
     {
-        public IDictionary<LootName, int> Items { get; set; }
+        public IList<IThing> Items { get; set; }
         
         public Vector3 Position { get; set; }
     }

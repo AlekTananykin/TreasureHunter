@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.Person;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,24 @@ namespace Assets.Code.Controllers
         public IPersonModel Model { get; }
 
         protected GameObject _view;
-        private const float _takeDistance = 4.0f;
+
         private float _ceenterY;
 
-        private ILeash _leash;
         private IPersonMover _personMover;
+
+        private PersonLootSystem _lootSystem;
 
         public PersonController(IPersonModel model, GameObject view)
         {
             Model = model;
             _view = view;
+
+            _lootSystem = new PersonLootSystem() {View =  _view, Model = Model };
         }
 
-        public Action<Vector3, Vector3> Shoot { get; internal set; }
+        public Action<Vector3, Vector3> Attack { get; internal set; }
+
+
 
         internal void Initialize(ILeash leash, float ceenterY)
         {
@@ -35,8 +41,7 @@ namespace Assets.Code.Controllers
 
             _view.transform.position = Model.InitPosition;
 
-            _leash = leash;
-            _personMover = new PersonMover(_leash, Model.RotationSpeed);
+            _personMover = new PersonMover(leash, Model.RotationSpeed);
             _ceenterY = ceenterY;
         }
 
@@ -58,44 +63,26 @@ namespace Assets.Code.Controllers
             Vector3 heroNewPosition = new Vector3(position.x,
                 position.y + _ceenterY, position.z);
 
-            _leash.AddPoint(heroNewPosition);
+            _personMover.AddPoint(heroNewPosition);
         }
 
-        public abstract void HitToPoint(Vector3 targetPoint);
+        public void HitToPoint(Vector3 targetPoint)
+        {
+            Attack?.Invoke(
+                _view.transform.position + Vector3.up * 2, targetPoint);
+        }
+
+        public void SelectAction(int actionNumber)
+        {
+            throw new NotImplementedException();
+        }
 
 
         public void TakeLoot(Vector3 targetPoint)
         {
-            Ray ray = new Ray(_view.transform.position, 
-                (targetPoint - _view.transform.position).normalized);
-            if (!Physics.Raycast(ray, out RaycastHit hitInfo))
-                return;
-
-            if (hitInfo.distance > _takeDistance)
-                return;
-
-
-            if (hitInfo.collider.gameObject.TryGetComponent(out IStorage bag))
-            {
-                IDictionary<LootName, int> loot = bag.GetItems();
-                foreach (var item in loot)
-                    AddLoot(item.Key, item.Value);
-
-                loot.Clear();
-            }
+            _lootSystem.TakeLoot(targetPoint);
         }
 
-        private void AddLoot(LootName name, int numberOf)
-        {
-            if (Model.BagItems.ContainsKey(name))
-                Model.BagItems[name] = Model.BagItems[name] + numberOf;
-            else
-                Model.BagItems.Add(name, numberOf);
-        }
-
-        public Vector3 GetPosition()
-        {
-            return _view.transform.position;
-        }
+        public Vector3 Position => _view.transform.position;
     }
 }

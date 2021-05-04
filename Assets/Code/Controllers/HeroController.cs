@@ -25,11 +25,5 @@ namespace Assets.Code.Controllers
 
             Initialize(new QeueLeash(Model.InitPosition), ceenterY);
         }
-
-        public override void HitToPoint(Vector3 targetPoint)
-        {
-            Shoot?.Invoke(
-                _view.transform.position + Vector3.up * 2, targetPoint);
-        }
     }
 }

@@ -9,11 +9,13 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class ShootoutController<BombFabricTemplate> : IInitialization
+    internal sealed class ShootoutController<BombFabricTemplate> : 
+        IAttackSystem, IInitialization
         where BombFabricTemplate: IGameObjectFabric, new()
     {
         GameObjectsPool<BombFabricTemplate> _bombsPool;
         const int _poolSize = 23;
+        const int _hitCount = 22;
 
         public void Initialize()
         {
@@ -22,7 +24,7 @@ namespace Assets.Code.Controllers
                     new BombFabricTemplate(), _poolSize);
         }
 
-        internal void Shoot(Vector3 place, Vector3 targetPoint)
+        public void Attack(Vector3 place, Vector3 targetPoint)
         {
             GameObject bullet = _bombsPool.Create();
             bullet.transform.position = place;
@@ -39,6 +41,9 @@ namespace Assets.Code.Controllers
             BombScript bombScript = bullet.GetComponent<BombScript>();
             bombScript.OnBombCall -= BulletFlyCompleeted;
             _bombsPool.Intake(ref bullet);
+
+            if (target.TryGetComponent(out IReactToHit react))
+                react.Hit(_hitCount);
         }
     }
 }

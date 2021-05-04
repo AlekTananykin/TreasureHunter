@@ -18,7 +18,7 @@ namespace Assets.Code.Interfaces
         int MaxHealth { get; set; }
         int Skill { get; set; }
 
-        IDictionary<LootName, int> BagItems { get; }
-        IDictionary<LootName, int> AppliedItems { get; }
+        IDictionary<LootName, IList<IThing>> BagItems { get; }
+        IDictionary<LootName, IThing> AppliedItems { get; }
     }
 }
