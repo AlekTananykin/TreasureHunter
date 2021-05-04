@@ -8,32 +8,22 @@ namespace Assets.Code.Auxiliary
 {
     public enum LootName
     {
-        kitchenKnife,//
-        cleaver,//tesak
-        cutlass,//abordajnaya sablya
-        saber,//sablya
-        dagger,//kinjal
-        twine,//shpagola
-        pica,//pika
+        none,
+
+        cutlass,
 
         grenade,
-        musket,
+
         gun,
-
-        food,
-
-        gunpowder,
-        rum,
-        doubloons,
-
-        boots,
 
         scope
     }
 
     public enum LootProperties
     {
-        Power,
+        Damage,
+
+
         Accuration,
         MovingSpeed,
         Health,

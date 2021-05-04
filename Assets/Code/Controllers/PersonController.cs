@@ -32,8 +32,6 @@ namespace Assets.Code.Controllers
 
         public Action<Vector3, Vector3> Attack { get; internal set; }
 
-
-
         internal void Initialize(ILeash leash, float ceenterY)
         {
             if (null == Model || null == _view)
