@@ -10,13 +10,8 @@ namespace Assets.Code.Controllers
 {
     internal class PrickAttackController : IAttackSystem
     {
-        readonly float _attackDistance;
-        readonly uint _hitCount;
-        internal PrickAttackController(float attackDistance, uint hitCount)
-        {
-            _attackDistance = attackDistance;
-            _hitCount = hitCount;
-        }
+        private float _attackDistance = 1f;
+        private const uint _hitCount = 100;
 
         public void Attack(Vector3 place, Vector3 targetPoint)
         {
