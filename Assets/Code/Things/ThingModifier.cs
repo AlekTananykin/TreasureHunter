@@ -16,7 +16,7 @@ namespace Assets.Code.Things
             if (target.Name != modification.Target ||
                 target.Components.ContainsKey(modification.Name))
                 return false;
-
+            target.Cost += modification.Cost;
             var keys = modification.Properties.Keys;
             foreach (LootProperties name in keys)
             {
@@ -37,6 +37,7 @@ namespace Assets.Code.Things
 
             target.Components.Remove(modificationName);
             var modificationKeys = modification.Properties.Keys;
+            target.Cost -= modification.Cost;
 
             foreach (LootProperties name in modificationKeys)
             {
