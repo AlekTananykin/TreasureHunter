@@ -22,6 +22,8 @@ namespace Assets.Code.Controllers
         private ILeash _leash;
         private IPersonMover _personMover;
 
+        private IAttackSystem _attackSystem;
+
         public Vector3 Position
         {
             get 
@@ -34,18 +36,18 @@ namespace Assets.Code.Controllers
             }
         }
 
-        internal PirateController(IPersonModel model, GameObject view, 
+        internal PirateController(IPersonModel model, GameObject view,
+            IAttackSystem attackSystem,
             IPersonController hero)
         {
             Model = model;
             _view = view;
+            _attackSystem = attackSystem;
             _hero = hero;
 
             _leash = new LoopLeash(Model.InitPosition);
             _personMover = new PersonMover(_leash, Model.RotationSpeed);
         }
-
-        public Action<Vector3, Vector3> Attack { get; internal set; }
 
         public void Execute(float deltaTime)
         {
@@ -56,7 +58,7 @@ namespace Assets.Code.Controllers
                 if (_shootTime >= _shootInterval)
                 {
                     _shootTime = 0;
-                    Attack?.Invoke(Position + Vector3.up *2, _hero.Position);
+                    _attackSystem.Attack(Position + Vector3.up *2, _hero.Position);
                 }
                 return;
             }
