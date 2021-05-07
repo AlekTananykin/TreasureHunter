@@ -22,17 +22,16 @@ namespace Assets.Code.Controllers
 
         private PersonLootSystem _lootSystem;
 
-        public PersonController(IPersonModel model, GameObject view)
+        private IAttackSystem _attackSystem;
+
+        public PersonController(IPersonModel model, GameObject view, IAttackSystem attackSystem)
         {
             Model = model;
             _view = view;
+            _attackSystem = attackSystem;
 
             _lootSystem = new PersonLootSystem() {View =  _view, Model = Model };
         }
-
-        public Action<Vector3, Vector3> Attack { get; internal set; }
-
-
 
         internal void Initialize(ILeash leash, float ceenterY)
         {
@@ -68,7 +67,7 @@ namespace Assets.Code.Controllers
 
         public void HitToPoint(Vector3 targetPoint)
         {
-            Attack?.Invoke(
+            _attackSystem.Attack(
                 _view.transform.position + Vector3.up * 2, targetPoint);
         }
 

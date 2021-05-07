@@ -8,15 +8,10 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal class PrickAttackController : IAttackSystem
+    internal class PrickAttackController : IAttackSystem, IInitialization
     {
-        readonly float _attackDistance;
-        readonly uint _hitCount;
-        internal PrickAttackController(float attackDistance, uint hitCount)
-        {
-            _attackDistance = attackDistance;
-            _hitCount = hitCount;
-        }
+        private float _attackDistance = 1f;
+        private const uint _hitCount = 100;
 
         public void Attack(Vector3 place, Vector3 targetPoint)
         {
@@ -27,6 +22,11 @@ namespace Assets.Code.Controllers
             if (hitInfo.collider.gameObject.TryGetComponent(
                 out IReactToHit react))
                 react.Hit(_hitCount);
+        }
+
+        public void Initialize()
+        {
+            Debug.Log("Prick attack is loaded");
         }
     }
 }

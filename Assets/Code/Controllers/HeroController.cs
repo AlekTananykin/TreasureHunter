@@ -13,8 +13,9 @@ namespace Assets.Code.Controllers
 {
     internal sealed class HeroController: PersonController, IInitialization
     {
-        internal HeroController(IPersonModel model, GameObject view)
-            :base(model, view)
+        internal HeroController(IPersonModel model, GameObject view, 
+            IAttackSystem attackSystem)
+            :base(model, view, attackSystem)
         {
         }
 

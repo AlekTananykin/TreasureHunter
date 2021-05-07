@@ -11,8 +11,6 @@ namespace Assets.Code.Interfaces
     {
         IPersonModel Model { get; }
 
-        Action<Vector3, Vector3> Attack { get;}
-
         void AddNewTargetPoint(Vector3 position);
 
         void HitToPoint(Vector3 targetPoint);
@@ -21,6 +19,5 @@ namespace Assets.Code.Interfaces
         void TakeLoot(Vector3 targetPoint);
 
         Vector3 Position { get; }
-
     }
 }

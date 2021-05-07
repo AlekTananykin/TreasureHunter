@@ -16,27 +16,28 @@ namespace Assets.Code
             ViewsFabric viewsFabric = new ViewsFabric();
 
             var shootOutController = new ShootoutController<BombViewFabric>();
+            var prickAttackController = new PrickAttackController();
 
             HeroController hero = InitializeCameraAndPlayer(viewsFabric,
                 controllers, model, playerInput, shootOutController);
 
             InitializeChests(controllers, model);
-            InitializePirates(controllers, model, shootOutController, hero);
+            InitializePirates(controllers, model, shootOutController, prickAttackController, hero);
 
             controllers.Add(shootOutController);
+            controllers.Add(prickAttackController);
         }
 
         private HeroController InitializeCameraAndPlayer(
             ViewsFabric viewsFabric,
             ControllersStorage controllers, GameModel model,
             IPlayerInput playerInput,
-            ShootoutController<BombViewFabric> shootOutSystem)
+            IAttackSystem attackSystem)
         {
             GameObject heroView = viewsFabric.CreateHero();
             heroView.transform.position = model.Hero.InitPosition;
-            var hero = new HeroController(model.Hero, heroView);
-            hero.Attack += shootOutSystem.Attack;
-
+            var hero = new HeroController(model.Hero, heroView, attackSystem);
+            
             GameObject cameraView = viewsFabric.CreateCamera();
             cameraView.transform.position = model.Camera.InitPosition;
             var camera = new CameraController(model.Camera, cameraView);
@@ -64,25 +65,27 @@ namespace Assets.Code
 
         private void InitializePirates(
             ControllersStorage controllers, GameModel model,
-            ShootoutController<BombViewFabric> bombShootout,
+            IAttackSystem shootAttack,
+            IAttackSystem prickAttack,
             HeroController hero)
         {
             PiratesViewFabric viewFabric = new PiratesViewFabric();
             for (int i = 0; i < model.Pirates.Length; ++i)
             {
                 InitializeSinglePirate(model.Pirates[i], 
-                    viewFabric.CreateGameObject(), bombShootout, 
+                    viewFabric.CreateGameObject(), 
+                    ((i % 2) == 0)? shootAttack: prickAttack, 
                     controllers, hero);
             }
         }
 
         private void InitializeSinglePirate(IPersonModel personModel, 
-            GameObject view, ShootoutController<BombViewFabric> bombShootout, 
+            GameObject view, IAttackSystem bombShootout, 
             ControllersStorage controllers, HeroController hero)
         {
-            var pirate = new PirateController(personModel, view, hero);
+            var pirate = new PirateController(
+                personModel, view, bombShootout, hero);
 
-            pirate.Attack += bombShootout.Attack;
             controllers.Add(pirate);
         }
 

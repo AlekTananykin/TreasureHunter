@@ -43,7 +43,7 @@ namespace Assets.Code.Controllers
             _bombsPool.Intake(ref bullet);
 
             if (target.TryGetComponent(out IReactToHit react))
-                react.Hit(_hitCount);
+                react.Hit((uint)_hitCount);
         }
     }
 }
