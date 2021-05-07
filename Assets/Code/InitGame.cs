@@ -15,50 +15,74 @@ namespace Assets.Code
         {
             ViewsFabric viewsFabric = new ViewsFabric();
 
-            InitializeCameraAndPlayer(viewsFabric,
-                controllers, model, playerInput);
+            var shootOutController = new ShootoutController<BombViewFabric>();
+
+            HeroController hero = InitializeCameraAndPlayer(viewsFabric,
+                controllers, model, playerInput, shootOutController);
 
             InitializeChests(controllers, model);
-            InitializePirates(controllers, model);
+            InitializePirates(controllers, model, shootOutController, hero);
+
+            controllers.Add(shootOutController);
         }
 
-        private void InitializeCameraAndPlayer(
+        private HeroController InitializeCameraAndPlayer(
             ViewsFabric viewsFabric,
             ControllersStorage controllers, GameModel model,
-            IPlayerInput playerInput)
+            IPlayerInput playerInput,
+            ShootoutController<BombViewFabric> shootOutSystem)
         {
             GameObject heroView = viewsFabric.CreateHero();
             heroView.transform.position = model.Hero.InitPosition;
             var hero = new HeroController(model.Hero, heroView);
+            hero.Attack += shootOutSystem.Attack;
 
             GameObject cameraView = viewsFabric.CreateCamera();
             cameraView.transform.position = model.Camera.InitPosition;
             var camera = new CameraController(model.Camera, cameraView);
 
+            GameObject zondView = viewsFabric.CreateZond();
+            GameObject frontCameraView = viewsFabric.CreateFrontCamera();
+            var zondController = new ZondController(frontCameraView, zondView, heroView);
+            
             var player = new PlayerController(playerInput, cameraView);
-            player.Select_Point += hero.AddNewTargetPoint;
-            player.Select_Point += camera.AddNewTargetPosition;
 
+            player.Hit_To_Point += hero.HitToPoint;
+            player.Go_To_Point += hero.AddNewTargetPoint;
+            player.Take_Loot += hero.TakeLoot;
+
+            player.Go_To_Point += camera.AddNewTargetPosition;
+            player.Current_Point += zondController.SetPosition;
+            
             controllers.Add(player);
             controllers.Add(hero);
             controllers.Add(camera);
+            controllers.Add(zondController);
+
+            return hero;
         }
 
         private void InitializePirates(
-            ControllersStorage controllers, GameModel model)
+            ControllersStorage controllers, GameModel model,
+            ShootoutController<BombViewFabric> bombShootout,
+            HeroController hero)
         {
             PiratesViewFabric viewFabric = new PiratesViewFabric();
             for (int i = 0; i < model.Pirates.Length; ++i)
             {
                 InitializeSinglePirate(model.Pirates[i], 
-                    viewFabric.CreateGameObject(), controllers);
+                    viewFabric.CreateGameObject(), bombShootout, 
+                    controllers, hero);
             }
         }
 
         private void InitializeSinglePirate(IPersonModel personModel, 
-            GameObject view, ControllersStorage controllers)
+            GameObject view, ShootoutController<BombViewFabric> bombShootout, 
+            ControllersStorage controllers, HeroController hero)
         {
-            var pirate = new PirateController(personModel, view);
+            var pirate = new PirateController(personModel, view, hero);
+
+            pirate.Attack += bombShootout.Attack;
             controllers.Add(pirate);
         }
 

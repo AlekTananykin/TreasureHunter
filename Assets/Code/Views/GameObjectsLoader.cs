@@ -20,7 +20,8 @@ namespace Assets.Code.Views
                     throw new GameException("CreateObjectFromFile: " +
                         "Prefab can't be loaded from file \"" + prefabPath + "\"");
             }
-            return GameObject.Instantiate(prefab);
+             var pathMark = GameObject.Instantiate(prefab);
+            return pathMark;
         }
     }
 }

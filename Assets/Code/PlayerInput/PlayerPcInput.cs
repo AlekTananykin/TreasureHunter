@@ -21,5 +21,15 @@ namespace Assets.Code.PlayerInput
             position = Input.mousePosition;
             return true;
         }
+
+        public void GetMousePosition(ref Vector3 position)
+        {
+            position = Input.mousePosition;
+        }
+
+        public bool IsLeftMouseClicked()
+        {
+            return Input.GetMouseButtonUp(0);
+        }
     }
 }

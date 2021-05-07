@@ -1,17 +1,20 @@
-﻿using System;
+﻿using Assets.Code.Auxiliary;
+using Assets.Code.Interfaces;
+using Assets.Code.Things;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Code.Models
 {
     internal sealed class GameModelFabric
     {
-        System.Random _rand = new System.Random();
-        float _minDistance = 10f;
-        int _piratesRange = 1000;
+        private System.Random _rand = new System.Random();
+        private float _minDistance = 10f;
+        private int _piratesRange = 1000;
+        private IThingsFabric _thingsFabric = new ThingsRandFabric();
+        private const int _maxThingsCount = 3;
+
 
         internal GameModel InitGameModel(uint piratesNum)
         {
@@ -36,6 +39,16 @@ namespace Assets.Code.Models
             }
 
             return model;
+        }
+
+        private ChestModel CreateChestModel(Vector3 position)
+        {
+            return new ChestModel()
+            {
+                Position = position,
+                Items = _thingsFabric.CreateThings(
+                    _rand.Next(_maxThingsCount))
+            };
         }
 
         private Vector3 GetRandChestPos(Vector3 heroInitPosition, 
@@ -68,45 +81,7 @@ namespace Assets.Code.Models
             return true;
         }
 
-        private ChestModel CreateChestModel(Vector3 position)
-        {
-            return new ChestModel()
-            {
-                Doubloons = _rand.Next(0, 1000),
-                Position = position
-            };
-        }
-
-        private Vector3 GetRandPiratePos(Vector3 heroInitPosition,
-            PersonModel[] piratesPos, int count, float minDistance)
-        {
-            const int matTryCount = 15;
-            Vector3 pos = new Vector3();
-            for(int i = 0; i < matTryCount; ++ i)
-            {
-                pos = new Vector3( _rand.Next(0, _piratesRange), 
-                    heroInitPosition.y, _rand.Next(0, _piratesRange));
-
-                if ((heroInitPosition - pos).magnitude < minDistance)
-                    continue;
-
-                if (CheckPirates(pos, piratesPos, count, minDistance))
-                    break;
-            } 
-
-            return pos;
-        }
-
-        private bool CheckPirates(Vector3 pos, PersonModel[] piratesPos, 
-            int count, float minDistance)
-        {
-            for (int j = 0; j < count; ++j)
-            {
-                if ((piratesPos[j].InitPosition - pos).magnitude < minDistance)
-                    return false;
-            }
-            return true;
-        }
+        
 
         private PersonModel CreateHeroModel()
         {
@@ -123,7 +98,7 @@ namespace Assets.Code.Models
         {
             var model = new CameraModel();
             model.Forward = Vector3.down;
-            model.Height = 30f;
+            model.Height = 25f;
             model.InitPosition = new Vector3(
                 model.InitPosition.x,
                 model.Height, heroModel.InitPosition.z);
@@ -149,6 +124,7 @@ namespace Assets.Code.Models
 
             model.Skill = 19;
             model.Speed = 7f;
+            model.RotationSpeed = 1f;
 
             return model;
         }

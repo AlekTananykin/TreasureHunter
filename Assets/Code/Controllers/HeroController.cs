@@ -11,46 +11,19 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class HeroController: IExecute, IInitialization
+    internal sealed class HeroController: PersonController, IInitialization
     {
-        private PersonModel _model;
-        private GameObject _view;
-        private float _ceenterY;
-
-        internal HeroController(PersonModel model, GameObject view)
+        internal HeroController(IPersonModel model, GameObject view)
+            :base(model, view)
         {
-            _model = model;
-            _view = view;
-
-            if (null == _model || null == _view)
-                throw new Exception("PlayerController is not ready. ");
-        }
-
-        QeueLeash _leash;
-        
-        public void Execute(float deltaTime)
-        {
-            _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
         }
 
         public void Initialize()
         {
-            _view.transform.position = _model.InitPosition;
             CapsuleCollider collider = _view.GetComponent<CapsuleCollider>();
-            _ceenterY = collider.bounds.size.y / 2;
+            float ceenterY = collider.bounds.size.y / 2;
 
-            _leash = new QeueLeash(_model.InitPosition);
-        }
-
-        public void AddNewTargetPoint(Vector3 position)
-        {
-            Vector3 heroNewPosition = new Vector3(position.x,
-                position.y + _ceenterY,
-                position.z);
-
-            Debug.Log(_ceenterY);
-
-            _leash.AddPoint(heroNewPosition);
+            Initialize(new QeueLeash(Model.InitPosition), ceenterY);
         }
     }
 }

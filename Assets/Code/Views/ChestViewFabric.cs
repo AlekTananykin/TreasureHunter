@@ -14,7 +14,7 @@ namespace Assets.Code.Views
         public GameObject CreateGameObject()
         {
             return CreateObjectFromFile(
-                ref _chestPrefab, "Prefabs/Treasure/TreasureСhest");
+                ref _chestPrefab, "Prefabs/Loot/TreasureСhest");
         }
 
     }

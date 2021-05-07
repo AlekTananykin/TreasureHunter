@@ -13,5 +13,8 @@ namespace Assets.Code.PlayerInput
         float MoveY { get; }
 
         bool GetClickPosition(ref Vector3 position);
+
+        void GetMousePosition(ref Vector3 position);
+        bool IsLeftMouseClicked();
     }
 }

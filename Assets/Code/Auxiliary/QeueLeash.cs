@@ -9,7 +9,7 @@ namespace Assets.Code.Auxiliary
 {
     internal class QeueLeash : Leash<QeueTrack>
     {
-        public QeueLeash(Vector3 currentPoint)
+        internal QeueLeash(Vector3 currentPoint)
             :base(currentPoint)
         {
             _track.AddPoint(currentPoint);

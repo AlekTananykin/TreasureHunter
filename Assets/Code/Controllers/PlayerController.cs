@@ -19,8 +19,9 @@ namespace Assets.Code.Controllers
         Camera _camera;
         GameObjectsPool<PathMarksFabric> _pathMarkPool;
         const uint _marksPoolSize = 5;
-
-        internal PlayerController(IPlayerInput input, GameObject camera)
+        
+        internal PlayerController(
+            IPlayerInput input, GameObject camera)
         {
             _input = input;
             _camera = camera.GetComponent<Camera>();
@@ -38,26 +39,43 @@ namespace Assets.Code.Controllers
         public void Execute(float deltaTime)
         {
             Vector3 position = new Vector3();
-            if (!_input.GetClickPosition(ref position))
-                return;
+            _input.GetMousePosition(ref position);
 
             Ray ray = _camera.ScreenPointToRay(position);
- 
             if (!Physics.Raycast(ray, out RaycastHit hit))
                 return;
 
-            GameObject go = _pathMarkPool.Create();
-            go.transform.position = hit.point;
-            PathMarkScript script = go.GetComponent<PathMarkScript>();
+            if (_input.IsLeftMouseClicked())
+            {
+                if (hit.collider.gameObject.CompareTag("Enemy"))
+                    Hit_To_Point?.Invoke(hit.point);
+                else if (hit.collider.gameObject.CompareTag("Loot"))
+                    Take_Loot?.Invoke(hit.point);
+                else
+                    GoToPoint(hit.point);
+            }
+
+            Current_Point?.Invoke(hit.point);
+        }
+
+
+        void GoToPoint(Vector3 point)
+        {
+            GameObject pathMark = _pathMarkPool.Create();
+            pathMark.transform.position = point;
+            PathMarkScript script = pathMark.GetComponent<PathMarkScript>();
             if (null == script)
                 throw new GameException("PathMarkScript is not attached. ");
 
             script.OnPathMatkCall = OnPathMarkTrigger;
 
-            Select_Point(hit.point);
+            Go_To_Point(point);
         }
 
-        public SelectPoint Select_Point;
+        public SelectPoint Go_To_Point;
+        public SelectPoint Hit_To_Point;
+        public SelectPoint Current_Point;
+        public SelectPoint Take_Loot;
         public void OnPathMarkTrigger(GameObject pathObj)
         {
             PathMarkScript script = pathObj.GetComponent<PathMarkScript>();

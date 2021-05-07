@@ -28,6 +28,22 @@ namespace Assets.Code.Views
             return _hero;
         }
 
+        internal GameObject CreateAnastasia()
+        {
+            if (null == _hero)
+            {
+                GameObject heroPrefab =
+                    (GameObject)Resources.Load("Prefabs/Heroes/Anastasiya");
+                if (null == heroPrefab)
+                {
+                    throw new GameException(
+                        "CreateHero: Hero prefab is not found. ");
+                }
+                _hero = (GameObject)GameObject.Instantiate(heroPrefab);
+            }
+            return _hero;
+        }
+
         private GameObject _camera;
         internal GameObject CreateCamera()
         {
@@ -43,6 +59,34 @@ namespace Assets.Code.Views
                 _camera = GameObject.Instantiate(cameraPrefab);
             }
             return _camera;
+        }
+
+        private GameObject _frontCamera;
+        internal GameObject CreateFrontCamera()
+        {
+            if (null == _frontCamera)
+            {
+                GameObject cameraPrefab = 
+                    (GameObject)Resources.Load("Prefabs/PlayerZond/FrontCamera");
+                if (null == cameraPrefab)
+                    throw new GameException("Create Front Camera");
+                _frontCamera = GameObject.Instantiate(cameraPrefab);
+            }
+            return _frontCamera;
+        }
+
+        private GameObject _zond;
+        internal GameObject CreateZond()
+        {
+            if (null == _zond)
+            {
+                GameObject zondPrefab =
+                    (GameObject)Resources.Load("Prefabs/PlayerZond/PlayerZond");
+                if (null == zondPrefab)
+                    throw new GameException("Create Player zond");
+                _zond = GameObject.Instantiate(zondPrefab);
+            }
+            return _zond;
         }
     }
 }
