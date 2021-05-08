@@ -1,4 +1,6 @@
-﻿using Assets.Code.Controllers;
+﻿using Assets.Code.Actions;
+using Assets.Code.Auxiliary;
+using Assets.Code.Controllers;
 using Assets.Code.Interfaces;
 using Assets.Code.Models;
 using Assets.Code.PlayerInput;
@@ -15,28 +17,42 @@ namespace Assets.Code
         {
             ViewsFabric viewsFabric = new ViewsFabric();
 
+
+            IActionStorage actionStorage = InitActions(controllers);
+
+            HeroController hero = InitializeCameraAndPlayer(viewsFabric,
+                controllers, model, playerInput, actionStorage);
+
+            InitializeChests(controllers, model);
+            InitializePirates(controllers, model, actionStorage, hero);
+
+        }
+
+        IActionStorage InitActions(ControllersStorage controllers)
+        {
+            IActionStorage storage = new ActionsStorage();
+
             var shootOutController = new ShootoutController<BombViewFabric>();
             var prickAttackController = new PrickAttackController();
 
-            HeroController hero = InitializeCameraAndPlayer(viewsFabric,
-                controllers, model, playerInput, shootOutController);
-
-            InitializeChests(controllers, model);
-            InitializePirates(controllers, model, shootOutController, prickAttackController, hero);
+            storage.AddAction(LootName.gun, shootOutController);
+            storage.AddAction(LootName.cutlass, prickAttackController);
 
             controllers.Add(shootOutController);
             controllers.Add(prickAttackController);
+
+            return storage;
         }
 
         private HeroController InitializeCameraAndPlayer(
             ViewsFabric viewsFabric,
             ControllersStorage controllers, GameModel model,
             IPlayerInput playerInput,
-            IAttackSystem attackSystem)
+            IActionStorage actionStorage)
         {
             GameObject heroView = viewsFabric.CreateHero();
             heroView.transform.position = model.Hero.InitPosition;
-            var hero = new HeroController(model.Hero, heroView, attackSystem);
+            var hero = new HeroController(model.Hero, heroView, actionStorage);
             
             GameObject cameraView = viewsFabric.CreateCamera();
             cameraView.transform.position = model.Camera.InitPosition;
@@ -46,11 +62,7 @@ namespace Assets.Code
             GameObject frontCameraView = viewsFabric.CreateFrontCamera();
             var zondController = new ZondController(frontCameraView, zondView, heroView);
             
-            var player = new PlayerController(playerInput, cameraView);
-
-            player.Hit_To_Point += hero.HitToPoint;
-            player.Go_To_Point += hero.AddNewTargetPoint;
-            player.Take_Loot += hero.TakeLoot;
+            var player = new PlayerController(playerInput, cameraView, hero);
 
             player.Go_To_Point += camera.AddNewTargetPosition;
             player.Current_Point += zondController.SetPosition;
@@ -65,16 +77,15 @@ namespace Assets.Code
 
         private void InitializePirates(
             ControllersStorage controllers, GameModel model,
-            IAttackSystem shootAttack,
-            IAttackSystem prickAttack,
+            IActionStorage actionStorage,
             HeroController hero)
         {
             PiratesViewFabric viewFabric = new PiratesViewFabric();
             for (int i = 0; i < model.Pirates.Length; ++i)
             {
-                InitializeSinglePirate(model.Pirates[i], 
-                    viewFabric.CreateGameObject(), 
-                    ((i % 2) == 0)? shootAttack: prickAttack, 
+                InitializeSinglePirate(model.Pirates[i],
+                    viewFabric.CreateGameObject(),
+                    actionStorage.GetAction(i % actionStorage.GetActionsCount()), 
                     controllers, hero);
             }
         }

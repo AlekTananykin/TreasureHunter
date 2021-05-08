@@ -11,11 +11,11 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class HeroController: PersonController, IInitialization
+    internal sealed class HeroController: PersonController, IInitialization, IManagedPerson
     {
-        internal HeroController(IPersonModel model, GameObject view, 
-            IAttackSystem attackSystem)
-            :base(model, view, attackSystem)
+        internal HeroController(IPersonModel model, GameObject view,
+             IActionStorage actionStorage)
+            :base(model, view, actionStorage)
         {
         }
 
@@ -25,6 +25,26 @@ namespace Assets.Code.Controllers
             float ceenterY = collider.bounds.size.y / 2;
 
             Initialize(new QeueLeash(Model.InitPosition), ceenterY);
+        }
+
+        public void GoToPoint(Vector3 position)
+        {
+            AddNewTargetPoint(position);
+        }
+
+        public new void HitToPoint(Vector3 targetPoint)
+        {
+            base.HitToPoint(targetPoint);
+        }
+
+        public new void SelectAction(int actionNumber)
+        {
+            base.SelectAction(actionNumber);
+        }
+
+        public new void TakeLoot(Vector3 targetPoint)
+        {
+            base.TakeLoot(targetPoint);
         }
     }
 }

@@ -9,21 +9,15 @@ namespace Assets.Code.Auxiliary
     public enum LootName
     {
         none,
-
         cutlass,
-
         grenade,
-
         gun,
-
         scope
     }
 
     public enum LootProperties
     {
         Damage,
-
-
         Accuration,
         MovingSpeed,
         Health,

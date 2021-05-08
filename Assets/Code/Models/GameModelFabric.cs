@@ -10,11 +10,10 @@ namespace Assets.Code.Models
     internal sealed class GameModelFabric
     {
         private System.Random _rand = new System.Random();
-        private float _minDistance = 10f;
-        private int _piratesRange = 1000;
+        private const float _minDistance = 10f;
+        private const int _piratesRange = 1000;
         private IThingsFabric _thingsFabric = new ThingsRandFabric();
         private const int _maxThingsCount = 3;
-
 
         internal GameModel InitGameModel(uint piratesNum)
         {
@@ -29,7 +28,6 @@ namespace Assets.Code.Models
                     GetRandChestPos(model.Hero.InitPosition,
                     model.Chests, i, _minDistance));
             }
-
 
             model.Pirates = new PersonModel[piratesNum];
             for (int i = 0; i < piratesNum; ++i)
@@ -81,7 +79,6 @@ namespace Assets.Code.Models
             return true;
         }
 
-        
 
         private PersonModel CreateHeroModel()
         {
@@ -91,6 +88,10 @@ namespace Assets.Code.Models
             model.InitPosition = new Vector3(10, 3, 10);
             model.Skill = 20;
             model.Speed = 5;
+            model.AppliedItems.Add(LootName.gun, new Thing() 
+            { 
+                Name = LootName.gun, Cost = 10, Target = LootName.none 
+            });
             return model;
         }
 
@@ -106,7 +107,8 @@ namespace Assets.Code.Models
             return model;
         }
 
-        private PersonModel CreatePirateModel(Vector3 chestPosition, float distance)
+        private PersonModel CreatePirateModel(
+            Vector3 chestPosition, float distance)
         {
             var model = new PersonModel();
             
