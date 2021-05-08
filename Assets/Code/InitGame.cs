@@ -50,7 +50,7 @@ namespace Assets.Code
             IPlayerInput playerInput,
             IActionStorage actionStorage)
         {
-            GameObject heroView = viewsFabric.CreateHero();
+            GameObject heroView = viewsFabric.CreateAnastasia();
             heroView.transform.position = model.Hero.InitPosition;
             var hero = new HeroController(model.Hero, heroView, actionStorage);
             

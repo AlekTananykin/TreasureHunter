@@ -48,7 +48,7 @@ namespace Assets.Code.Controllers
             
             Collider carierCollider = cameraCarrier.GetComponent<Collider>();
             _cameraView.transform.localPosition = new Vector3(0f,
-                carierCollider.bounds.size.y, carierCollider.bounds.size.y * 3f);
+                carierCollider.bounds.size.y / 2f, carierCollider.bounds.size.y * 2f);
             _cameraView.transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
 
