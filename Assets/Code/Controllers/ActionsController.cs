@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    class ActionsController: IExecute, IInitialization, IAttackSystem
+    class ActionsController: IExecute, IInitialization, IActionSystem
     {
         private IDictionary<LootName, IAction> _attackSystems = 
             new Dictionary<LootName, IAction>();

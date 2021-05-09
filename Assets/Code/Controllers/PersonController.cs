@@ -23,7 +23,7 @@ namespace Assets.Code.Controllers
         private PersonActionSystem _actionSystem;
 
         public PersonController(IPersonModel model, GameObject view, 
-            IAttackSystem actionSystem)
+            IActionSystem actionSystem)
         {
             Model = model;
             _view = view;

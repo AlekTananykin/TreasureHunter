@@ -18,7 +18,7 @@ namespace Assets.Code
             ViewsFabric viewsFabric = new ViewsFabric();
 
 
-            IAttackSystem actionsController = InitActions(controllers);
+            IActionSystem actionsController = InitActions(controllers);
 
             HeroController hero = InitializeCameraAndPlayer(viewsFabric,
                 controllers, model, playerInput, actionsController);
@@ -28,9 +28,9 @@ namespace Assets.Code
 
         }
 
-        IAttackSystem InitActions(ControllersStorage controllers)
+        IActionSystem InitActions(ControllersStorage controllers)
         {
-            IAttackSystem actionSystem = new ActionsController();
+            IActionSystem actionSystem = new ActionsController();
             if (!(actionSystem is IInteractionObject))
                 throw new GameException(
                     "InitGame.InitActions: ActionsController is not IAttackSystem");
@@ -47,7 +47,7 @@ namespace Assets.Code
             ViewsFabric viewsFabric,
             ControllersStorage controllers, GameModel model,
             IPlayerInput playerInput,
-            IAttackSystem actionSysterm)
+            IActionSystem actionSysterm)
         {
             GameObject heroView = viewsFabric.CreateAnastasia();
             heroView.transform.position = model.Hero.InitPosition;
@@ -76,7 +76,7 @@ namespace Assets.Code
 
         private void InitializePirates(
             ControllersStorage controllers, GameModel model,
-            IAttackSystem actionSystem,
+            IActionSystem actionSystem,
             HeroController hero)
         {
             PiratesViewFabric viewFabric = new PiratesViewFabric();

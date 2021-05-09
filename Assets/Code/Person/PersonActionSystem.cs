@@ -15,9 +15,9 @@ namespace Assets.Code.Person
         internal GameObject View { get; set; }
         internal IPersonModel Model { get; set; }
         private int _selectedAction = 0;
-        private IAttackSystem _actionSystem;
+        private IActionSystem _actionSystem;
 
-        public PersonActionSystem(IAttackSystem actionStorage)
+        public PersonActionSystem(IActionSystem actionStorage)
         {
             _actionSystem = actionStorage;
         }

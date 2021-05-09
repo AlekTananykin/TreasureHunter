@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Code.Interfaces
 {
-    interface IAttackSystem: IAction
+    interface IActionSystem: IAction
     {
         void Add(LootName name, IInteractionObject system);
     }

@@ -15,7 +15,7 @@ namespace Assets.Code.Controllers
         const float _seeDistance = 10f;
 
         internal PirateController(IPersonModel model, GameObject view,
-            IAttackSystem actionSystem,
+            IActionSystem actionSystem,
             IPersonController hero)
             :base(model, view, actionSystem)
         {
