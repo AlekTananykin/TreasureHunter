@@ -115,7 +115,6 @@ namespace Assets.Code.Models
             model.MaxHealth = 100;
             model.Health = model.MaxHealth;
 
-
             model.InitPosition = chestPosition + 
                 Vector3.ClampMagnitude(new Vector3(
                     (float)_rand.NextDouble() * distance,
@@ -123,6 +122,12 @@ namespace Assets.Code.Models
                     (float)_rand.NextDouble() * distance),
                     distance);
 
+            model.AppliedItems.Add(LootName.gun, new Thing()
+            {
+                Name = LootName.gun,
+                Cost = 10,
+                Target = LootName.none
+            });
 
             model.Skill = 19;
             model.Speed = 7f;

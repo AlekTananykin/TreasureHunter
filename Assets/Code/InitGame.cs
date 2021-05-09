@@ -83,21 +83,12 @@ namespace Assets.Code
             PiratesViewFabric viewFabric = new PiratesViewFabric();
             for (int i = 0; i < model.Pirates.Length; ++i)
             {
-                InitializeSinglePirate(model.Pirates[i],
-                    viewFabric.CreateGameObject(),
-                    actionStorage.GetAction(i % actionStorage.GetActionsCount()), 
-                    controllers, hero);
+                var pirate = new PirateController(
+                model.Pirates[i], viewFabric.CreateGameObject(), actionStorage, hero);
+                pirate.SelectAction(0);
+
+                controllers.Add(pirate);
             }
-        }
-
-        private void InitializeSinglePirate(IPersonModel personModel, 
-            GameObject view, IAttackSystem bombShootout, 
-            ControllersStorage controllers, HeroController hero)
-        {
-            var pirate = new PirateController(
-                personModel, view, bombShootout, hero);
-
-            controllers.Add(pirate);
         }
 
         private void InitializeChests(

@@ -32,6 +32,7 @@ namespace Assets.Code.Controllers
             catch (GameException ex)
             {
                 Debug.LogError(ex.Message);
+                Application.Quit();
             }
         }
 

@@ -46,7 +46,7 @@ namespace Assets.Code.Controllers
             _ceenterY = ceenterY;
         }
 
-        public void Execute(float deltaTime)
+        public virtual void Execute(float deltaTime)
         {
             if (!_personMover.IsNeedMove)
                 return;
