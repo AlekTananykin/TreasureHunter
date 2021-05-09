@@ -14,41 +14,36 @@ namespace Assets.Code.Person
     {
         internal GameObject View { get; set; }
         internal IPersonModel Model { get; set; }
-
-        private IAttackSystem[] _actions;
         private int _selectedAction = 0;
+        private IAttackSystem _actionSystem;
 
-        private IActionStorage _actionStorage;
-
-        public PersonActionSystem(IActionStorage actionStorage)
+        public PersonActionSystem(IAttackSystem actionStorage)
         {
-            _actionStorage = actionStorage;
-        }
-
-        internal void ReloadFromModel()
-        {
-            int i = 0;
-            _actions = new IAttackSystem[Model.AppliedItems.Count];
-            foreach (var thing in Model.AppliedItems)
-                 _actions[i ++] = _actionStorage.GetAction(thing.Key);
+            _actionSystem = actionStorage;
         }
 
         public void ActionToPoint(Vector3 targetPoint)
         {
-            if (null == _actions || 0 == _actions.Length)
-                return;
-
-            _actions[_selectedAction].Attack(
-                View.transform.position + Vector3.up * 2, targetPoint);
+            ChechActionNumber(_selectedAction);
+            _actionSystem.Attack(View.transform.position + Vector3.up * 2, 
+                targetPoint, Model.AppliedItems[_selectedAction]);
         }
 
         public void SelectAction(int actionNumber)
         {
-            if (_selectedAction >= _actions.Length)
-                throw new GameException("PersonActionSystem.ActionToPoint: " +
-                    "selected attack number out of range > " + _selectedAction);
-
+            ChechActionNumber(actionNumber);
             _selectedAction = actionNumber;
+        }
+
+        private void ChechActionNumber(int number)
+        {
+            if (number >= Model.AppliedItems.Count ||
+               0 == Model.AppliedItems.Count)
+            {
+                throw new GameException("PersonActionSystem.SelectedAction: " +
+                    "Model.AppliedItems is empty or selectedAction is greater " +
+                    "then appliedItemsCount. ");
+            }
         }
     }
 }

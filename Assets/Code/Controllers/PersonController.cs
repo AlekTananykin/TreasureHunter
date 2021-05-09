@@ -23,16 +23,14 @@ namespace Assets.Code.Controllers
         private PersonActionSystem _actionSystem;
 
         public PersonController(IPersonModel model, GameObject view, 
-            IActionStorage actionStorage)
+            IAttackSystem actionSystem)
         {
             Model = model;
             _view = view;
 
             _lootSystem = new PersonLootSystem() {View =  _view, Model = Model };
-            _actionSystem = new PersonActionSystem(actionStorage) 
+            _actionSystem = new PersonActionSystem(actionSystem) 
                 { View = _view, Model = Model };
-
-            _actionSystem.ReloadFromModel();
         }
 
         internal void Initialize(ILeash leash, float ceenterY)

@@ -19,6 +19,6 @@ namespace Assets.Code.Interfaces
         int Skill { get; set; }
 
         IDictionary<LootName, IList<IThing>> BagItems { get; }
-        IDictionary<LootName, IThing> AppliedItems { get; }
+        IList<IThing> AppliedItems { get; }
     }
 }

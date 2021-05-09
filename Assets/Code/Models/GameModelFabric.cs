@@ -88,7 +88,7 @@ namespace Assets.Code.Models
             model.InitPosition = new Vector3(10, 3, 10);
             model.Skill = 20;
             model.Speed = 5;
-            model.AppliedItems.Add(LootName.gun, new Thing() 
+            model.AppliedItems.Add(new Thing() 
             { 
                 Name = LootName.gun, Cost = 10, Target = LootName.none 
             });
@@ -122,7 +122,7 @@ namespace Assets.Code.Models
                     (float)_rand.NextDouble() * distance),
                     distance);
 
-            model.AppliedItems.Add(LootName.gun, new Thing()
+            model.AppliedItems.Add(new Thing()
             {
                 Name = LootName.gun,
                 Cost = 10,
