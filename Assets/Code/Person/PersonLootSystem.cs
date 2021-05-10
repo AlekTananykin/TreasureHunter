@@ -42,6 +42,8 @@ namespace Assets.Code.Person
                 Model.BagItems[thing.Name].Add(thing);
             else
                 Model.BagItems.Add(thing.Name, new List<IThing>() {thing});
+
+            Debug.Log("Loot: " + thing.Name);
         }
     }
 }

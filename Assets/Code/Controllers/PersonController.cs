@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal abstract class PersonController : IPersonController, IExecute
+    internal abstract class PersonController : IExecute, IPersonController
     {
         public IPersonModel Model { get; }
 
@@ -19,18 +19,18 @@ namespace Assets.Code.Controllers
         private float _ceenterY;
 
         private IPersonMover _personMover;
-
         private PersonLootSystem _lootSystem;
+        private PersonActionSystem _actionSystem;
 
-        private IAttackSystem _attackSystem;
-
-        public PersonController(IPersonModel model, GameObject view, IAttackSystem attackSystem)
+        public PersonController(IPersonModel model, GameObject view, 
+            IActionSystem actionSystem)
         {
             Model = model;
             _view = view;
-            _attackSystem = attackSystem;
 
             _lootSystem = new PersonLootSystem() {View =  _view, Model = Model };
+            _actionSystem = new PersonActionSystem(actionSystem) 
+                { View = _view, Model = Model };
         }
 
         internal void Initialize(ILeash leash, float ceenterY)
@@ -44,7 +44,7 @@ namespace Assets.Code.Controllers
             _ceenterY = ceenterY;
         }
 
-        public void Execute(float deltaTime)
+        public virtual void Execute(float deltaTime)
         {
             if (!_personMover.IsNeedMove)
                 return;
@@ -57,7 +57,7 @@ namespace Assets.Code.Controllers
                 _view.transform.forward = direction;
         }
 
-        public void AddNewTargetPoint(Vector3 position)
+        protected void AddNewTargetPoint(Vector3 position)
         {
             Vector3 heroNewPosition = new Vector3(position.x,
                 position.y + _ceenterY, position.z);
@@ -65,19 +65,17 @@ namespace Assets.Code.Controllers
             _personMover.AddPoint(heroNewPosition);
         }
 
-        public void HitToPoint(Vector3 targetPoint)
+        protected void HitToPoint(Vector3 targetPoint)
         {
-            _attackSystem.Attack(
-                _view.transform.position + Vector3.up * 2, targetPoint);
+            _actionSystem.ActionToPoint(targetPoint);
         }
 
-        public void SelectAction(int actionNumber)
+        protected void SelectAction(int actionNumber)
         {
-            throw new NotImplementedException();
+            _actionSystem.SelectAction(actionNumber);
         }
 
-
-        public void TakeLoot(Vector3 targetPoint)
+        protected void TakeLoot(Vector3 targetPoint)
         {
             _lootSystem.TakeLoot(targetPoint);
         }

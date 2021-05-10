@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Assets.Code.Controllers
 {
     internal sealed class ShootoutController<BombFabricTemplate> : 
-        IAttackSystem, IInitialization
+        IAction, IInitialization
         where BombFabricTemplate: IGameObjectFabric, new()
     {
         GameObjectsPool<BombFabricTemplate> _bombsPool;
@@ -24,7 +24,7 @@ namespace Assets.Code.Controllers
                     new BombFabricTemplate(), _poolSize);
         }
 
-        public void Attack(Vector3 place, Vector3 targetPoint)
+        public bool Attack(Vector3 place, Vector3 targetPoint, IThing actionThing)
         {
             GameObject bullet = _bombsPool.Create();
             bullet.transform.position = place;
@@ -34,6 +34,7 @@ namespace Assets.Code.Controllers
 
             BombScript bombScript = bullet.GetComponent<BombScript>();
             bombScript.OnBombCall += BulletFlyCompleeted;
+            return true;
         }
 
         internal void BulletFlyCompleeted(GameObject bullet, Collider target)

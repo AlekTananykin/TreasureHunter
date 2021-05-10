@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Code.Auxiliary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,8 @@ using UnityEngine;
 
 namespace Assets.Code.Interfaces
 {
-    interface IAttackSystem
+    interface IActionSystem: IAction
     {
-        void Attack(Vector3 place, Vector3 targetPoint);
+        void Add(LootName name, IInteractionObject system);
     }
 }

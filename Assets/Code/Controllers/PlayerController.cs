@@ -19,10 +19,12 @@ namespace Assets.Code.Controllers
         Camera _camera;
         GameObjectsPool<PathMarksFabric> _pathMarkPool;
         const uint _marksPoolSize = 5;
+        IManagedPerson _managedPerson;
         
         internal PlayerController(
-            IPlayerInput input, GameObject camera)
+            IPlayerInput input, GameObject camera, IManagedPerson managedPerson)
         {
+            _managedPerson = managedPerson;
             _input = input;
             _camera = camera.GetComponent<Camera>();
             _pathMarkPool = new GameObjectsPool<PathMarksFabric>(
@@ -48,9 +50,9 @@ namespace Assets.Code.Controllers
             if (_input.IsLeftMouseClicked())
             {
                 if (hit.collider.gameObject.CompareTag("Enemy"))
-                    Hit_To_Point?.Invoke(hit.point);
+                    _managedPerson.HitToPoint(hit.point);
                 else if (hit.collider.gameObject.CompareTag("Loot"))
-                    Take_Loot?.Invoke(hit.point);
+                    _managedPerson.TakeLoot(hit.point);
                 else
                     GoToPoint(hit.point);
             }
@@ -69,13 +71,13 @@ namespace Assets.Code.Controllers
 
             script.OnPathMatkCall = OnPathMarkTrigger;
 
-            Go_To_Point(point);
+            _managedPerson.GoToPoint(point);
+            Go_To_Point?.Invoke(point);
         }
 
         public SelectPoint Go_To_Point;
-        public SelectPoint Hit_To_Point;
         public SelectPoint Current_Point;
-        public SelectPoint Take_Loot;
+
         public void OnPathMarkTrigger(GameObject pathObj)
         {
             PathMarkScript script = pathObj.GetComponent<PathMarkScript>();

@@ -6,51 +6,26 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class PirateController : IExecute, IInitialization
+    internal sealed class PirateController : PersonController, IInitialization
     {
-        internal IPersonModel Model { get; }
-        private GameObject _view;
-
         private IPersonController _hero;
         
         const float _shootInterval = 3f;
         float _shootTime = _shootInterval;
         const float _seeDistance = 10f;
 
-        private float _ceenterY;
-
-        private ILeash _leash;
-        private IPersonMover _personMover;
-
-        private IAttackSystem _attackSystem;
-
-        public Vector3 Position
-        {
-            get 
-            {
-                return _view.transform.position;
-            }
-            set
-            {
-                _view.transform.position = value;
-            }
-        }
-
         internal PirateController(IPersonModel model, GameObject view,
-            IAttackSystem attackSystem,
+            IActionSystem actionSystem,
             IPersonController hero)
+            :base(model, view, actionSystem)
         {
-            Model = model;
-            _view = view;
-            _attackSystem = attackSystem;
             _hero = hero;
-
-            _leash = new LoopLeash(Model.InitPosition);
-            _personMover = new PersonMover(_leash, Model.RotationSpeed);
         }
 
-        public void Execute(float deltaTime)
+        public override void Execute(float deltaTime)
         {
+            base.Execute(deltaTime);
+
             if ((this.Position - _hero.Position).magnitude < _seeDistance)
             {
                 _view.transform.LookAt(_hero.Position);
@@ -58,7 +33,7 @@ namespace Assets.Code.Controllers
                 if (_shootTime >= _shootInterval)
                 {
                     _shootTime = 0;
-                    _attackSystem.Attack(Position + Vector3.up *2, _hero.Position);
+                    HitToPoint(_hero.Position);
                 }
                 return;
             }
@@ -67,10 +42,14 @@ namespace Assets.Code.Controllers
 
         public void Initialize()
         {
-            Position = Model.InitPosition;
-
             CapsuleCollider collider = _view.GetComponent<CapsuleCollider>();
-            _ceenterY = collider.bounds.size.y / 2;
+            base.Initialize(new LoopLeash(Model.InitPosition), 
+                collider.bounds.size.y / 2f);
+        }
+
+        public new void SelectAction(int action)
+        {
+            base.SelectAction(action);
         }
     }
 }
