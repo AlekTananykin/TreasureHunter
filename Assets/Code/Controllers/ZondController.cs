@@ -32,9 +32,9 @@ namespace Assets.Code.Controllers
 
         public void Cleanup()
         {
-            ZondScript zondScript = _zondView.GetComponent<ZondScript>();
-            zondScript.On_Zond_Trigger_Enter -= SetCameraCarrier;
-            zondScript.On_Zond_Trigger_Exit -= UnsetCameraCarrier;
+            //ZondScript zondScript = _zondView.GetComponent<ZondScript>();
+            //zondScript.On_Zond_Trigger_Enter -= SetCameraCarrier;
+            //zondScript.On_Zond_Trigger_Exit -= UnsetCameraCarrier;
         }
 
         private void UnsetCameraCarrier(GameObject cameraCarrier)

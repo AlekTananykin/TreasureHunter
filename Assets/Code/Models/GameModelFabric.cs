@@ -99,7 +99,7 @@ namespace Assets.Code.Models
         {
             var model = new CameraModel();
             model.Forward = Vector3.down;
-            model.Height = 25f;
+            model.Height = 10f;
             model.InitPosition = new Vector3(
                 model.InitPosition.x,
                 model.Height, heroModel.InitPosition.z);

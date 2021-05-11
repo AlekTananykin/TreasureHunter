@@ -21,10 +21,7 @@ namespace Assets.Code.Controllers
 
         public void Initialize()
         {
-            CapsuleCollider collider = _view.GetComponent<CapsuleCollider>();
-            float ceenterY = collider.bounds.size.y / 2;
-
-            Initialize(new QeueLeash(Model.InitPosition), ceenterY);
+            Initialize(new QeueLeash(Model.InitPosition), 0f);
         }
 
         public void GoToPoint(Vector3 position)
