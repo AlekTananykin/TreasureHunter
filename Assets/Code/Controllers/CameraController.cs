@@ -26,7 +26,8 @@ namespace Assets.Code.Controllers
 
         public void Execute(float deltaTime)
         {
-            _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
+            if (_leash.IsNeedMove)
+                _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
         }
 
         public void Initialize()

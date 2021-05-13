@@ -61,7 +61,7 @@ namespace Assets.Code.Controllers
 
         public void Cleanup()
         {
-            for (int i = 0; i < _cleanupStorage.Count; ++ i)
+            for (int i = _cleanupStorage.Count - 1; i >= 0 ; -- i)
             {
                 _cleanupStorage[i].Cleanup();
             }

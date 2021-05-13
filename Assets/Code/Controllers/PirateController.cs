@@ -42,7 +42,9 @@ namespace Assets.Code.Controllers
 
         public void Initialize()
         {
-            base.Initialize(new LoopLeash(Model.InitPosition), 0);
+            Collider collider = _view.GetComponent<Collider>(); 
+            base.Initialize(new LoopLeash(Model.InitPosition), 
+                collider.bounds.center.y / 2);
         }
 
         public new void SelectAction(int action)

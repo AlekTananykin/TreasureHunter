@@ -36,9 +36,9 @@ namespace Assets.Code.Controllers
 
         public void Cleanup()
         {
-            BagScript storageScript = _view.GetComponent<BagScript>();
-            if (null != storageScript?.Get_Storage)
-                storageScript.Get_Storage -= GetThings;
+            //BagScript storageScript = _view.GetComponent<BagScript>();
+            //if (null != storageScript?.Get_Storage)
+            //    storageScript.Get_Storage -= GetThings;
         }
     }
 }

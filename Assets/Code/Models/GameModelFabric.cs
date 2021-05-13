@@ -19,7 +19,7 @@ namespace Assets.Code.Models
         {
             GameModel model = new GameModel();
             model.Hero = CreateHeroModel();
-            model.Camera = CreateCameraModel(model.Hero);
+            model.Camera = CreateCameraModel(model.Hero.InitPosition);
 
             model.Chests = new ChestModel[piratesNum];
             for (int i = 0; i < piratesNum; ++i)
@@ -85,7 +85,7 @@ namespace Assets.Code.Models
             var model = new PersonModel();
             model.Health = 100;
             model.MaxHealth = 100;
-            model.InitPosition = new Vector3(10, 3, 10);
+            model.InitPosition = new Vector3(10, 0, 10);
             model.Skill = 20;
             model.Speed = 5;
             model.AppliedItems.Add(new Thing() 
@@ -95,15 +95,15 @@ namespace Assets.Code.Models
             return model;
         }
 
-        private CameraModel CreateCameraModel(PersonModel heroModel)
+        private CameraModel CreateCameraModel(Vector3 xzPosition)
         {
             var model = new CameraModel();
             model.Forward = Vector3.down;
             model.Height = 10f;
             model.InitPosition = new Vector3(
-                model.InitPosition.x,
-                model.Height, heroModel.InitPosition.z);
-            model.Speed = 10f;
+                xzPosition.x,
+                model.Height, xzPosition.z);
+            model.Speed = 3f;
             return model;
         }
 
