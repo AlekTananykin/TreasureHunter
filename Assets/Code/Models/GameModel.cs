@@ -11,9 +11,7 @@ namespace Assets.Code.Models
     {
         public CameraModel Camera { get; set; }
         public PersonModel Hero { get; set; }
-
         public PersonModel[] Pirates { get; set; }
-
         public ChestModel[] Chests { get; set; }
     }
 }

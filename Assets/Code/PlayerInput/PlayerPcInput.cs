@@ -31,5 +31,15 @@ namespace Assets.Code.PlayerInput
         {
             return Input.GetMouseButtonUp(0);
         }
+
+        public bool IsLoad()
+        {
+            return Input.GetKeyDown(KeyCode.L);
+        }
+
+        public bool IsSave()
+        {
+            return Input.GetKeyDown(KeyCode.S);
+        }
     }
 }

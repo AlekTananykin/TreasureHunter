@@ -1,6 +1,8 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.SaveLoad;
 using Assets.Code.Things;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,10 @@ namespace Assets.Code.Models
         
         public int Skill { get; set; }
 
+        [JsonConverter(typeof(JsonTypeConverter<Dictionary<LootName, List<Thing>>>))]
         public IDictionary<LootName, IList<IThing>> BagItems { get; }
+
+        [JsonConverter(typeof(JsonTypeConverter<List<IThing>>))]
         public IList<IThing> AppliedItems { get; }
 
         public float RotationSpeed { get; set; }

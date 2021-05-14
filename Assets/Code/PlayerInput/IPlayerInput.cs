@@ -16,5 +16,8 @@ namespace Assets.Code.PlayerInput
 
         void GetMousePosition(ref Vector3 position);
         bool IsLeftMouseClicked();
+
+        bool IsSave();
+        bool IsLoad();
     }
 }
