@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    sealed  internal class ChestModel
+    sealed  internal class ChestModel : ModelBase
     {
         [JsonConverter(typeof(JsonTypeConverter<List<Thing>>))]
         public IList<Thing> Items;

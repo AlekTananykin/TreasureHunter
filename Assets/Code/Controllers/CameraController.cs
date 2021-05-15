@@ -11,39 +11,42 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class CameraController : IInitialization, IExecute
+    internal sealed class CameraController : IInitialization, 
+        IExecute, IModelController
     {
         public GameObject _view;
-        public CameraModel _model;
+        public CameraModel Model { get; set; }
 
         private QeueLeash _leash;
+
+        public int Id => Model.ModelId;
 
         internal CameraController(CameraModel model, GameObject view)
         {
             _view = view;
-            _model = model;
+            Model = model;
         }
 
         public void Execute(float deltaTime)
         {
             if (_leash.IsNeedMove)
-                _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
+                _view.transform.position = _leash.Execute(deltaTime, Model.Speed);
         }
 
         public void Initialize()
         {
-            if (null == _view || null == _model)
+            if (null == _view || null == Model)
                 throw new GameException(this.ToString() + ": is not ready. ");
 
-            _view.transform.position = _model.InitPosition;
-            _view.transform.forward = _model.Forward;
-            _leash = new QeueLeash(_model.InitPosition);
+            _view.transform.position = Model.InitPosition;
+            _view.transform.forward = Model.Forward;
+            _leash = new QeueLeash(Model.InitPosition);
         }
 
         public void AddNewTargetPosition(Vector3 position)
         {
             Vector3 cameraNewPosition = new Vector3(position.x,
-                _model.Height, 
+                Model.Height, 
                 position.z);
 
             _leash.AddPoint(cameraNewPosition);

@@ -11,7 +11,8 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class HeroController: PersonController, IInitialization, IManagedPerson
+    internal sealed class HeroController: PersonController, IInitialization, 
+        IManagedPerson
     {
         internal HeroController(PersonModel model, GameObject view,
              IActionSystem actionSystem)

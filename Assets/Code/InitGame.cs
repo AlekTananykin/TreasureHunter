@@ -15,6 +15,8 @@ namespace Assets.Code
         public InitGame(ControllersStorage controllers, GameModel model,
             IPlayerInput playerInput)
         {
+
+
             ViewsFabric viewsFabric = new ViewsFabric();
 
 
@@ -35,7 +37,7 @@ namespace Assets.Code
                 throw new GameException(
                     "InitGame.InitActions: ActionsController is not IAttackSystem");
 
-            controllers.Add(actionSystem as IInteractionObject);
+            controllers.Add(actionSystem);
 
             actionSystem.Add(LootName.gun, new ShootoutController<BombViewFabric>());
             actionSystem.Add(LootName.cutlass, new PrickAttackController());

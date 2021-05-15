@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    internal sealed class GameModelFabric
+    internal sealed class GameModelFabric : ModelBase
     {
         private System.Random _rand = new System.Random();
         private const float _minDistance = 10f;

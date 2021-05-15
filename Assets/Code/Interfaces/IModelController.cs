@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Code.Models
+namespace Assets.Code.Interfaces
 {
-    class PlayerModel
+    interface IModelController
     {
-
+        int Id { get; }
     }
 }

@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    internal class PersonModel
+    internal class PersonModel: ModelBase
     {
         public Vector3 InitPosition;
         public float Speed;

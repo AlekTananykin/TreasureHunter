@@ -11,9 +11,9 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    class ActionsController: IExecute, IInitialization, IActionSystem
+    internal sealed class ActionsController : IExecute, IInitialization, IActionSystem
     {
-        private IDictionary<LootName, IAction> _attackSystems = 
+        private IDictionary<LootName, IAction> _attackSystems =
             new Dictionary<LootName, IAction>();
 
         private ControllersStorage _controllers = new ControllersStorage();

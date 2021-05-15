@@ -11,9 +11,13 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class ChestController : IInitialization, ICleanup
+    internal sealed class ChestController : IInitialization, ICleanup, 
+        IModelController
     {
         public ChestModel Model { get; }
+
+        public int Id => Model.ModelId;
+
         private GameObject _view;
 
         public ChestController(ChestModel model, GameObject view)

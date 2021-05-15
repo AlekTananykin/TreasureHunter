@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    class CameraModel
+    internal sealed class CameraModel : ModelBase
     {
         public float Speed;
         public Vector3 InitPosition;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Code.Models
 {
-    internal sealed class GameModel
+    internal sealed class GameModel : ModelBase
     {
         public CameraModel Camera;
         public PersonModel Hero;

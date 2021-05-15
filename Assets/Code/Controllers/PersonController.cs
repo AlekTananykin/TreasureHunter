@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal abstract class PersonController : IExecute, IPersonController
+    internal abstract class PersonController : IExecute, IPersonController, IModelController
     {
         public PersonModel Model;
 
@@ -82,5 +82,7 @@ namespace Assets.Code.Controllers
         }
 
         public Vector3 Position => _view.transform.position;
+
+        public int Id => Model.ModelId;
     }
 }

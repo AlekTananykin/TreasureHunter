@@ -47,7 +47,6 @@ namespace Assets.Code.Controllers
             if (_playerInput.IsSave())
             {
                 _gameSaver.Save(_gameModel);
-
                 Debug.Log("Game is saved. ");
             }
             if (_playerInput.IsLoad())
