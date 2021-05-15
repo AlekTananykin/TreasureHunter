@@ -9,9 +9,9 @@ namespace Assets.Code.Models
 {
     internal sealed class GameModel
     {
-        public CameraModel Camera { get; set; }
-        public PersonModel Hero { get; set; }
-        public PersonModel[] Pirates { get; set; }
-        public ChestModel[] Chests { get; set; }
+        public CameraModel Camera;
+        public PersonModel Hero;
+        public PersonModel[] Pirates;
+        public ChestModel[] Chests;
     }
 }

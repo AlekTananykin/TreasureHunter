@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Assets.Code.Controllers
             _attackSystems.Add(name, action);
         }
 
-        public bool Attack(Vector3 place, Vector3 targetPoint, IThing attackThing)
+        public bool Attack(Vector3 place, Vector3 targetPoint, Thing attackThing)
         {
             if (!_attackSystems.TryGetValue(attackThing.Name, out IAction attack))
                 return false;

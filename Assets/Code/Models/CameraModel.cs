@@ -10,11 +10,11 @@ namespace Assets.Code.Models
 {
     class CameraModel
     {
-        public float Speed { get; set; }
-        public Vector3 InitPosition { get; set; }
+        public float Speed;
+        public Vector3 InitPosition;
 
-        public Vector3 Forward { get; set; }
-        
-        public float Height { get; set; }
+        public Vector3 Forward;
+
+        public float Height;
     }
 }

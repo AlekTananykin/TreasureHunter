@@ -1,5 +1,7 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.Models;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,8 @@ namespace Assets.Code.Person
 {
     internal class PersonLootSystem
     {
-        public GameObject View { get; set; }
-        public IPersonModel Model { get; set; }
+        public GameObject View;
+        public PersonModel Model;
 
         private const float _takeDistance = 4.0f;
 
@@ -28,7 +30,7 @@ namespace Assets.Code.Person
 
             if (hitInfo.collider.gameObject.TryGetComponent(out IStorage bag))
             {
-                IList<IThing> bagItems = bag.GetItems();
+                IList<Thing> bagItems = bag.GetItems();
                 foreach (var item in bagItems)
                     AddLoot(item);
 
@@ -36,12 +38,12 @@ namespace Assets.Code.Person
             }
         }
 
-        private void AddLoot(IThing thing)
+        private void AddLoot(Thing thing)
         {
-            if (Model.BagItems.ContainsKey(thing.Name))
-                Model.BagItems[thing.Name].Add(thing);
+            if (Model.GetBagItems().ContainsKey(thing.Name))
+                Model.GetBagItems()[thing.Name].Add(thing);
             else
-                Model.BagItems.Add(thing.Name, new List<IThing>() {thing});
+                Model.GetBagItems().Add(thing.Name, new List<Thing>() {thing});
 
             Debug.Log("Loot: " + thing.Name);
         }

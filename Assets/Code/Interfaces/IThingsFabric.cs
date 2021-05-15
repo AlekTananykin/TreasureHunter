@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Code.Auxiliary;
+using Assets.Code.Things;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Assets.Code.Interfaces
 {
-    internal interface IThingsFabric
+    interface IThingsFabric
     {
-        IList<IThing> CreateThings(int thingsCount);
+        IList<Thing> CreateThings(int thingsCount);
     }
 }

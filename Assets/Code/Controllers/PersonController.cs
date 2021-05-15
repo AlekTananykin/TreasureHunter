@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.Models;
 using Assets.Code.Person;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Assets.Code.Controllers
 {
     internal abstract class PersonController : IExecute, IPersonController
     {
-        public IPersonModel Model { get; }
+        public PersonModel Model;
 
         protected GameObject _view;
 
@@ -22,7 +23,7 @@ namespace Assets.Code.Controllers
         private PersonLootSystem _lootSystem;
         private PersonActionSystem _actionSystem;
 
-        public PersonController(IPersonModel model, GameObject view, 
+        public PersonController(PersonModel model, GameObject view, 
             IActionSystem actionSystem)
         {
             Model = model;

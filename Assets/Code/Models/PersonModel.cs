@@ -12,28 +12,32 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    internal class PersonModel: IPersonModel
+    internal class PersonModel
     {
-        public Vector3 InitPosition { get; set; }
-        public float Speed { get; set; }
+        public Vector3 InitPosition;
+        public float Speed;
 
-        public int Health { get; set; }
-        public int MaxHealth { get; set; }
-        
-        public int Skill { get; set; }
+        public int Health;
+        public int MaxHealth;
 
-        [JsonConverter(typeof(JsonTypeConverter<Dictionary<LootName, List<Thing>>>))]
-        public IDictionary<LootName, IList<IThing>> BagItems { get; }
+        public int Skill;
 
-        [JsonConverter(typeof(JsonTypeConverter<List<IThing>>))]
-        public IList<IThing> AppliedItems { get; }
+        private readonly IDictionary<LootName, IList<Thing>> bagItems;
 
-        public float RotationSpeed { get; set; }
+        public IDictionary<LootName, IList<Thing>> GetBagItems()
+        {
+            return bagItems;
+        }
+
+        [JsonConverter(typeof(JsonTypeConverter<List<Thing>>))]
+        public IList<Thing> AppliedItems;
+
+        public float RotationSpeed;
 
         public PersonModel()
         {
-            BagItems = new Dictionary<LootName, IList<IThing>>();
-            AppliedItems = new List<IThing>();
+            bagItems = new Dictionary<LootName, IList<Thing>>();
+            AppliedItems = new List<Thing>();
         }
     }
 }

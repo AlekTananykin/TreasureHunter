@@ -15,8 +15,8 @@ namespace Assets.Code.Models
     sealed  internal class ChestModel
     {
         [JsonConverter(typeof(JsonTypeConverter<List<Thing>>))]
-        public IList<IThing> Items { get; set; }
-        
-        public Vector3 Position { get; set; }
+        public IList<Thing> Items;
+
+        public Vector3 Position;
     }
 }

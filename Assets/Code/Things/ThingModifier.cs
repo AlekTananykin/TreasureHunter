@@ -11,7 +11,7 @@ namespace Assets.Code.Things
     internal static class ThingModifier
     {
         public static bool AddModification(
-            this IThing target, IThing modification)
+            this Thing target, Thing modification)
         {
             if (target.Name != modification.Target ||
                 target.Components.ContainsKey(modification.Name))
@@ -28,11 +28,11 @@ namespace Assets.Code.Things
             return true;
         }
 
-        public static IThing RemoveModification(
-            this IThing target, LootName modificationName)
+        public static Thing RemoveModification(
+            this Thing target, LootName modificationName)
         {
             if (!target.Components.TryGetValue(
-                modificationName, out IThing modification))
+                modificationName, out Thing modification))
                 return null;
 
             target.Components.Remove(modificationName);
@@ -47,8 +47,8 @@ namespace Assets.Code.Things
             return modification;
         }
 
-        public static IThing RemoveModification(
-           this IThing target, IThing modification)
+        public static Thing RemoveModification(
+           this Thing target, Thing modification)
         {
             return target.RemoveModification(modification.Name);
         }

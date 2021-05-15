@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
 using Assets.Code.Models;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Assets.Code.Controllers
             _view.transform.position = Model.Position;
         }
 
-        public IList<IThing> GetThings()
+        public IList<Thing> GetThings()
         {
             return Model.Items;
         }

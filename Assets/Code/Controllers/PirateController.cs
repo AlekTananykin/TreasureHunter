@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.Models;
 using Assets.Code.Views;
 using System;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Assets.Code.Controllers
         float _shootTime = _shootInterval;
         const float _seeDistance = 10f;
 
-        internal PirateController(IPersonModel model, GameObject view,
+        internal PirateController(PersonModel model, GameObject view,
             IActionSystem actionSystem,
             IPersonController hero)
             :base(model, view, actionSystem)
