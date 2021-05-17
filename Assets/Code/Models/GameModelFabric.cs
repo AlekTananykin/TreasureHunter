@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    internal sealed class GameModelFabric : ModelBase
+    internal sealed class GameModelFabric
     {
         private System.Random _rand = new System.Random();
         private const float _minDistance = 10f;
@@ -20,7 +20,7 @@ namespace Assets.Code.Models
             GameModel model = new GameModel();
             model.Hero = CreateHeroModel();
             model.Camera = CreateCameraModel(model.Hero.InitPosition);
-
+            
             model.Chests = new ChestModel[piratesNum];
             for (int i = 0; i < piratesNum; ++i)
             {

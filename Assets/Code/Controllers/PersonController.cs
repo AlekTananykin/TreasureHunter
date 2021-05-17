@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Auxiliary;
+using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
 using Assets.Code.Models;
 using Assets.Code.Person;
@@ -84,5 +85,13 @@ namespace Assets.Code.Controllers
         public Vector3 Position => _view.transform.position;
 
         public int Id => Model.ModelId;
+
+        public void SetModel(IModel model)
+        {
+            if (model is PersonModel)
+                Model = model as PersonModel;
+            else throw new GameException(
+                "PersonController.SetModel: model as not PersonModel. ");
+        }
     }
 }

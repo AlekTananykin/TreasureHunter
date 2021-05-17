@@ -9,7 +9,7 @@ namespace Assets.Code.SaveLoad
     internal interface IGameSaver<T>
     {
         void Save(T dataToSave);
-        void Load(int fileIndex, out T loadedData);
+        void Load(int fileIndex, ref T loadedData);
         IList<string> GetSaveList();
     }
 }

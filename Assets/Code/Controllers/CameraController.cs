@@ -19,6 +19,13 @@ namespace Assets.Code.Controllers
 
         private QeueLeash _leash;
 
+        public void SetModel(IModel model)
+        {
+            if (model is CameraModel)
+                Model = model as CameraModel;
+            else throw new GameException(
+                "CameraController.SetModel: model as not CameraModel. ");
+        }
         public int Id => Model.ModelId;
 
         internal CameraController(CameraModel model, GameObject view)

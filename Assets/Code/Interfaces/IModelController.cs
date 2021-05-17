@@ -8,6 +8,7 @@ namespace Assets.Code.Interfaces
 {
     interface IModelController
     {
+        void SetModel(IModel model);
         int Id { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Auxiliary;
+using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
 using Assets.Code.Models;
 using Assets.Code.Things;
@@ -14,8 +15,16 @@ namespace Assets.Code.Controllers
     internal sealed class ChestController : IInitialization, ICleanup, 
         IModelController
     {
-        public ChestModel Model { get; }
+        public ChestModel Model { get; private set; }
 
+        public void SetModel(IModel model)
+        {
+            if (model is ChestModel)
+                Model = model as ChestModel;
+            else throw new GameException(
+                "ChestController.SetModel: model as not ChestModel. ");
+
+        }
         public int Id => Model.ModelId;
 
         private GameObject _view;

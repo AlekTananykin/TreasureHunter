@@ -13,12 +13,12 @@ namespace Assets.Code
     sealed class InitGame
     {
         public InitGame(ControllersStorage controllers, GameModel model,
-            IPlayerInput playerInput)
+            IPlayerInput playerInput, string saveGamePath)
         {
-
+            InitSaveLoadGameController(playerInput, model, 
+                controllers, saveGamePath);
 
             ViewsFabric viewsFabric = new ViewsFabric();
-
 
             IActionSystem actionsController = InitActions(controllers);
 
@@ -27,7 +27,14 @@ namespace Assets.Code
 
             InitializeChests(controllers, model);
             InitializePirates(controllers, model, actionsController, hero);
+        }
 
+        private void InitSaveLoadGameController(IPlayerInput playerInput, 
+            GameModel model, ControllersStorage controllers, string saveGamePath)
+        {
+            var saveLoadController = new SaveLoadGameController<GameModel>(
+                playerInput, model, controllers, saveGamePath);
+            controllers.Add(saveLoadController);
         }
 
         IActionSystem InitActions(ControllersStorage controllers)

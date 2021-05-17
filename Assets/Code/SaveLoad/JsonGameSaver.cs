@@ -52,7 +52,7 @@ namespace Assets.Code.SaveLoad
             return filename.ToString();
         }
 
-        public void Load(int fileIndex, out T loadedData)
+        public void Load(int fileIndex, ref T loadedData)
         {
             if (fileIndex > _filenames.Count)
                 throw new GameException("GameSaver.Load: index is out of range. ");
