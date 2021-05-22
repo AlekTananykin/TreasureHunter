@@ -29,7 +29,6 @@ namespace Assets.Code.Models
             return bagItems;
         }
 
-        [JsonConverter(typeof(JsonTypeConverter<List<Thing>>))]
         public IList<Thing> AppliedItems;
 
         public float RotationSpeed;
