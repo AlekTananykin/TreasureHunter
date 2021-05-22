@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Assets.Code.Controllers
 {
-    sealed class ControllersStorage : 
+    class ControllersStorage : 
         IExecute, ILateExecute, IInitialization, ICleanup
     {
         IList<IExecute> _executeStorage;
         IList<IInitialization> _intializeStorage;
         IList<ILateExecute> _lateExecuteStorage;
         IList<ICleanup> _cleanupStorage;
-        IDictionary<int, IModelController> _modelControllers;
+
 
         public ControllersStorage()
         {
@@ -23,7 +23,6 @@ namespace Assets.Code.Controllers
             _intializeStorage = new List<IInitialization>();
             _cleanupStorage = new List<ICleanup>();
             _lateExecuteStorage = new List<ILateExecute>();
-            _modelControllers = new Dictionary<int, IModelController>();
         }
 
         public void Add(IInteractionObject interactionObject)
@@ -43,10 +42,6 @@ namespace Assets.Code.Controllers
             if (interactionObject is ILateExecute lateObject)
             {
                 _lateExecuteStorage.Add(lateObject);
-            }
-            if (interactionObject is IModelController modelController)
-            {
-                _modelControllers.Add(modelController.Id, modelController);
             }
         }
 
@@ -80,16 +75,6 @@ namespace Assets.Code.Controllers
             {
                 _lateExecuteStorage[i].LateExecute(deltaTime);
             }
-        }
-
-        public IModelController GetModelController(int modelId)
-        {
-            if (_modelControllers.TryGetValue(
-                modelId, out IModelController controller))
-                return controller;
-
-            throw new GameException(
-                "ControllersStorage.GetModelController: can't find ModelId");
         }
     }
 }

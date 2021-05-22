@@ -22,7 +22,7 @@ namespace Assets.Code.Controllers
 
         public void Initialize()
         {
-            Initialize(new QeueLeash(Model.InitPosition), 0f);
+            Initialize(new QeueLeash(_model.InitPosition), 0f);
         }
 
         public void GoToPoint(Vector3 position)
@@ -44,5 +44,6 @@ namespace Assets.Code.Controllers
         {
             base.TakeLoot(targetPoint);
         }
+        
     }
 }

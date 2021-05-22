@@ -9,7 +9,7 @@ namespace Assets.Code.Controllers
 {
     public sealed class GameController : MonoBehaviour
     {
-        private ControllersStorage _controllersStorage;
+        private ControllersAndModelControllers _controllersStorage;
 
         private IPlayerInput _playerInput;
         private GameModelFabric _gameModelFabric;
@@ -25,7 +25,7 @@ namespace Assets.Code.Controllers
                 GameModel gameModel = 
                     _gameModelFabric.InitGameModel(_piratesCount);
 
-                _controllersStorage = new ControllersStorage();
+                _controllersStorage = new ControllersAndModelControllers();
                 _playerInput = new PlayerPcInput();
                 new InitGame(_controllersStorage, gameModel,
                     _playerInput, _savedGamesPath);

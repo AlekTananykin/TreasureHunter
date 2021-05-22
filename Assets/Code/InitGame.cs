@@ -12,7 +12,7 @@ namespace Assets.Code
 {
     sealed class InitGame
     {
-        public InitGame(ControllersStorage controllers, GameModel model,
+        public InitGame(ControllersAndModelControllers controllers, GameModel model,
             IPlayerInput playerInput, string saveGamePath)
         {
             InitSaveLoadGameController(playerInput, model, 
@@ -30,14 +30,14 @@ namespace Assets.Code
         }
 
         private void InitSaveLoadGameController(IPlayerInput playerInput, 
-            GameModel model, ControllersStorage controllers, string saveGamePath)
+            GameModel model, ControllersAndModelControllers controllers, string saveGamePath)
         {
             var saveLoadController = new SaveLoadGameController<GameModel>(
                 playerInput, model, controllers, saveGamePath);
             controllers.Add(saveLoadController);
         }
 
-        IActionSystem InitActions(ControllersStorage controllers)
+        IActionSystem InitActions(ControllersAndModelControllers controllers)
         {
             IActionSystem actionSystem = new ActionsController();
             if (!(actionSystem is IInteractionObject))
@@ -54,7 +54,7 @@ namespace Assets.Code
 
         private HeroController InitializeCameraAndPlayer(
             ViewsFabric viewsFabric,
-            ControllersStorage controllers, GameModel model,
+            ControllersAndModelControllers controllers, GameModel model,
             IPlayerInput playerInput,
             IActionSystem actionSysterm)
         {
@@ -84,7 +84,7 @@ namespace Assets.Code
         }
 
         private void InitializePirates(
-            ControllersStorage controllers, GameModel model,
+            ControllersAndModelControllers controllers, GameModel model,
             IActionSystem actionSystem,
             HeroController hero)
         {
@@ -100,7 +100,7 @@ namespace Assets.Code
         }
 
         private void InitializeChests(
-            ControllersStorage controllers, GameModel model)
+            ControllersAndModelControllers controllers, GameModel model)
         {
             ChestViewFabric viewFabric = new ChestViewFabric();
             for (int i = 0; i < model.Chests.Length; ++i)
@@ -111,7 +111,7 @@ namespace Assets.Code
         }
 
         private void InitializeSingleChest(ChestModel chestModel, 
-            GameObject view, ControllersStorage controllers)
+            GameObject view, ControllersAndModelControllers controllers)
         {
             var chest = new ChestController(chestModel, view);
             controllers.Add(chest);

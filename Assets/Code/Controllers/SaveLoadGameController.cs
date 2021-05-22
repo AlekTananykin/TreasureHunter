@@ -16,7 +16,7 @@ namespace Assets.Code.Controllers
     {
         private IPlayerInput _playerInput;
         private GModel _model;
-        private ControllersStorage _controllers;
+        private ControllersAndModelControllers _controllers;
         private IGameSaver<GModel> _gameSaver;
 
         internal SaveLoadGameController(
@@ -25,7 +25,12 @@ namespace Assets.Code.Controllers
         {
             _playerInput = playerInput;
             _model = gameModel;
-            _controllers = controllersStorage;
+
+            if (!(controllersStorage is ControllersAndModelControllers))
+                throw new GameException("SaveLoadGameController: " +
+                    "controllersStorage is not ControllersAndModelControllers");
+
+            _controllers = controllersStorage as ControllersAndModelControllers;
 
             _gameSaver = new GameSaver<GModel>(savedGamesPath);
         }
@@ -34,6 +39,7 @@ namespace Assets.Code.Controllers
         {
             if (_playerInput.IsSave())
             {
+                _controllers.PreSafe();
                 _gameSaver.Save(_model);
             }
             if (_playerInput.IsLoad())

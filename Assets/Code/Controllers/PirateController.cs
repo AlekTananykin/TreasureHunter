@@ -44,7 +44,7 @@ namespace Assets.Code.Controllers
         public void Initialize()
         {
             Collider collider = _view.GetComponent<Collider>(); 
-            base.Initialize(new LoopLeash(Model.InitPosition), 
+            base.Initialize(new LoopLeash(_model.InitPosition), 
                 collider.bounds.size.y / 2);
         }
 

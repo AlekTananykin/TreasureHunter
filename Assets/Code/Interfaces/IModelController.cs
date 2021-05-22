@@ -9,6 +9,7 @@ namespace Assets.Code.Interfaces
     interface IModelController
     {
         void SetModel(IModel model);
+        void PreSafe();
         int Id { get; }
     }
 }

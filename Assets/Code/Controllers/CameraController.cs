@@ -14,46 +14,53 @@ namespace Assets.Code.Controllers
     internal sealed class CameraController : IInitialization, 
         IExecute, IModelController
     {
-        public GameObject _view;
-        public CameraModel Model { get; set; }
-
+        private GameObject _view;
+        private CameraModel _model;
         private QeueLeash _leash;
 
         public void SetModel(IModel model)
         {
             if (model is CameraModel)
-                Model = model as CameraModel;
+            {
+                _model = model as CameraModel;
+                _view.transform.position = _model.InitPosition;
+            }
             else throw new GameException(
                 "CameraController.SetModel: model as not CameraModel. ");
         }
-        public int Id => Model.ModelId;
+        public void PreSafe()
+        {
+             _model.InitPosition = _view.transform.position;
+        }
+
+        public int Id => _model.ModelId;
 
         internal CameraController(CameraModel model, GameObject view)
         {
             _view = view;
-            Model = model;
+            _model = model;
         }
 
         public void Execute(float deltaTime)
         {
             if (_leash.IsNeedMove)
-                _view.transform.position = _leash.Execute(deltaTime, Model.Speed);
+                _view.transform.position = _leash.Execute(deltaTime, _model.Speed);
         }
 
         public void Initialize()
         {
-            if (null == _view || null == Model)
+            if (null == _view || null == _model)
                 throw new GameException(this.ToString() + ": is not ready. ");
 
-            _view.transform.position = Model.InitPosition;
-            _view.transform.forward = Model.Forward;
-            _leash = new QeueLeash(Model.InitPosition);
+            _view.transform.position = _model.InitPosition;
+            _view.transform.forward = _model.Forward;
+            _leash = new QeueLeash(_model.InitPosition);
         }
 
         public void AddNewTargetPosition(Vector3 position)
         {
             Vector3 cameraNewPosition = new Vector3(position.x,
-                Model.Height, 
+                _model.Height, 
                 position.z);
 
             _leash.AddPoint(cameraNewPosition);

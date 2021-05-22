@@ -15,23 +15,32 @@ namespace Assets.Code.Controllers
     internal sealed class ChestController : IInitialization, ICleanup, 
         IModelController
     {
-        public ChestModel Model { get; private set; }
+        private ChestModel _model;
 
         public void SetModel(IModel model)
         {
             if (model is ChestModel)
-                Model = model as ChestModel;
+            {
+                _model = model as ChestModel;
+                _view.transform.position = _model.Position;
+            }
             else throw new GameException(
                 "ChestController.SetModel: model as not ChestModel. ");
 
         }
-        public int Id => Model.ModelId;
+
+        public void PreSafe()
+        {
+            _model.Position = _view.transform.position;
+        }
+
+        public int Id => _model.ModelId;
 
         private GameObject _view;
 
         public ChestController(ChestModel model, GameObject view)
         {
-            Model = model;
+            _model = model;
             _view = view;
         }
 
@@ -40,12 +49,12 @@ namespace Assets.Code.Controllers
             BagScript storageScript = _view.AddComponent<BagScript>();
             storageScript.Get_Storage += GetThings;
 
-            _view.transform.position = Model.Position;
+            _view.transform.position = _model.Position;
         }
 
         public IList<Thing> GetThings()
         {
-            return Model.Items;
+            return _model.Items;
         }
 
         public void Cleanup()
