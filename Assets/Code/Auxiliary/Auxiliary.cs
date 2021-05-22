@@ -12,7 +12,13 @@ namespace Assets.Code.Auxiliary
         cutlass = 1,
         grenade = 2,
         gun = 3,
-        scope = 4
+        scope = 4,
+
+        jackboots = 5,
+        carryingBelt = 6,
+        stoneOfLife = 7,
+        encyclopedia = 8
+
     }
 
     public enum LootProperties
@@ -25,8 +31,4 @@ namespace Assets.Code.Auxiliary
         Armor = 5
     }
 
-    public enum ActionCode
-    {
-        zero, one, two, three, four, five, six, seven, eight, nine
-    }
 }

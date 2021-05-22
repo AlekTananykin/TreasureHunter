@@ -45,7 +45,11 @@ namespace Assets.Code.Person
             else
                 Model.GetBagItems().Add(thing.Name, new List<Thing>() {thing});
 
+            Taken_Thing?.Invoke(thing);
+
             Debug.Log("Loot: " + thing.Name);
         }
+
+        internal Action<Thing> Taken_Thing;
     }
 }
