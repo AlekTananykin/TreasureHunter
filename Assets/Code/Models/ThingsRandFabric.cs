@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
+using Assets.Code.Models.ThingsFactories;
 using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,20 @@ namespace Assets.Code.Models
     internal sealed class ThingsRandFabric: IThingsFabric
     {
         private System.Random _rand = new System.Random();
+        private IList<IThingFactory> _thingsFactories;
+
+        internal ThingsRandFabric()
+        {
+            _thingsFactories = new List<IThingFactory>();
+            _thingsFactories.Add(new CutlassFactory(_rand));
+            _thingsFactories.Add(new GrenadeFactory(_rand));
+            _thingsFactories.Add(new GunFactory(_rand));
+            _thingsFactories.Add(new ScopeFactory(_rand));
+            _thingsFactories.Add(new JackbootsFactory(_rand));
+            _thingsFactories.Add(new CarryingBeltFactory(_rand));
+            _thingsFactories.Add(new StoneOfLifeFactory(_rand));
+            _thingsFactories.Add(new EncyclopediaFactory(_rand));
+        }
 
         public IList<Thing> CreateThings(int thingsCount)
         {
@@ -64,69 +79,15 @@ namespace Assets.Code.Models
 
         private Thing CreateThing(LootName thingName)
         {
-            switch (thingName)
+            for (int i = 0; i < _thingsFactories.Count; ++i)
             {
-                case LootName.cutlass:
-                    return CreateCutlass();
-                case LootName.grenade:
-                    return CreateGrenade();
-                case LootName.gun:
-                    return CreateGun();
-                case LootName.scope:
-                    return CreateScope();
-                default:
-                    throw new GameException(
-                        "ThingsRandFabric: Unknown loot type. ");
+                Thing thing = _thingsFactories[i].Create(thingName);
+                if (null != thing)
+                    return thing;
             }
+
+            throw new GameException(
+                "ThingsRandFabric: Unknown loot type. ");
         }
-
-        private Thing CreateCutlass()
-        {
-            Thing thing = new Thing() { 
-                Name = LootName.cutlass, 
-                Cost = _rand.Next(12), 
-                Target = LootName.none };
-            thing.Properties.Add(LootProperties.Damage, 4);
-            
-            return thing;
-        }
-
-        private Thing CreateGrenade()
-        {
-            Thing thing = new Thing()
-            {
-                Name = LootName.grenade,
-                Cost = _rand.Next(1, 5),
-                Target = LootName.none
-            };
-            thing.Properties.Add(LootProperties.Damage, 4);
-
-            return thing;
-        }
-
-        private Thing CreateGun()
-        {
-            Thing thing = new Thing()
-            {
-                Name = LootName.gun,
-                Cost = _rand.Next(12),
-                Target = LootName.none
-            };
-            thing.Properties.Add(LootProperties.Damage, 4);
-            return thing;
-        }
-
-        private Thing CreateScope()
-        {
-            Thing thing = new Thing()
-            {
-                Name = LootName.scope,
-                Cost = _rand.Next(120),
-                Target = LootName.gun
-            };
-            thing.Properties.Add(LootProperties.Accuration, 4);
-            return thing;
-        }
-
     }
 }

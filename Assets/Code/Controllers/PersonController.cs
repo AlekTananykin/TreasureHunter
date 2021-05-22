@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Assets.Code.Controllers
 {
     internal abstract class PersonController : 
-        IExecute, IPersonController, IModelController
+        IExecute, IPersonController, IModelController, ICleanup
     {
         protected PersonModel _model;
 
@@ -25,6 +25,8 @@ namespace Assets.Code.Controllers
         private PersonLootSystem _lootSystem;
         private PersonActionSystem _actionSystem;
 
+        private PersonSubjectSystem _subjectSystem;
+
         public PersonController(PersonModel model, GameObject view, 
             IActionSystem actionSystem)
         {
@@ -34,6 +36,10 @@ namespace Assets.Code.Controllers
             _lootSystem = new PersonLootSystem() {View =  _view, Model = _model };
             _actionSystem = new PersonActionSystem(actionSystem) 
                 { View = _view, Model = _model };
+
+            _subjectSystem = new PersonSubjectSystem(_model);
+
+            _lootSystem.Taken_Thing += _subjectSystem.ModifyPerson;
         }
 
         internal void Initialize(ILeash leash, float ceenterY)
@@ -101,6 +107,11 @@ namespace Assets.Code.Controllers
         public void PreSafe()
         {
             _model.InitPosition = _view.transform.position;
+        }
+
+        public void Cleanup()
+        {
+           _lootSystem.Taken_Thing -= _subjectSystem.ModifyPerson;
         }
     }
 }

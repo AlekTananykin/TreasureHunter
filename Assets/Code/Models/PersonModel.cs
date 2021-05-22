@@ -19,6 +19,7 @@ namespace Assets.Code.Models
 
         public int Health;
         public int MaxHealth;
+        public int LoadCapacity;
 
         public int Skill;
 
