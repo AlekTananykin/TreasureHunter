@@ -11,7 +11,6 @@ namespace Assets.Code.Models.ThingsFactories
 {
     internal class CarryingBeltFactory : RandomThingFactory
     {
-        Random _rand;
         public CarryingBeltFactory(Random rnd)
         : base(rnd, LootName.carryingBelt) { }
     }
