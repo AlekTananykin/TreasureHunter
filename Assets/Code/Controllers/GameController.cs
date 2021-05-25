@@ -1,8 +1,7 @@
 using Assets.Code.Exceptions;
-using Assets.Code.Interfaces;
 using Assets.Code.Models;
 using Assets.Code.PlayerInput;
-using System.Collections;
+using Assets.Code.SaveLoad;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,22 +9,26 @@ namespace Assets.Code.Controllers
 {
     public sealed class GameController : MonoBehaviour
     {
-        private ControllersStorage _controllersStorage;
-        private GameModel _gameModel;
-        private IPlayerInput _playerInput;
-        private GameModelFabric _gameModeFabric;
+        private ControllersAndModelControllers _controllersStorage;
 
+        private IPlayerInput _playerInput;
+        private GameModelFabric _gameModelFabric;
+        
+        private const string _savedGamesPath = "SavedGames";
         private uint _piratesCount = 1200;
+
         void Start()
         {
             try
             {
-                _gameModeFabric = new GameModelFabric();
-                _gameModel = _gameModeFabric.InitGameModel(_piratesCount);
+                _gameModelFabric = new GameModelFabric();
+                GameModel gameModel = 
+                    _gameModelFabric.InitGameModel(_piratesCount);
 
-                _controllersStorage = new ControllersStorage();
+                _controllersStorage = new ControllersAndModelControllers();
                 _playerInput = new PlayerPcInput();
-                new InitGame(_controllersStorage, _gameModel, _playerInput);
+                new InitGame(_controllersStorage, gameModel,
+                    _playerInput, _savedGamesPath);
 
                 _controllersStorage.Initialize();
             }
@@ -44,9 +47,12 @@ namespace Assets.Code.Controllers
         {
             _controllersStorage.LateExecute(Time.deltaTime);
         }
+
         public void OnDestroy()
         {
             _controllersStorage.Cleanup();
         }
+
+ 
     }
 }

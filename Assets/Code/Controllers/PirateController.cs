@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.Models;
 using Assets.Code.Views;
 using System;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Assets.Code.Controllers
         float _shootTime = _shootInterval;
         const float _seeDistance = 10f;
 
-        internal PirateController(IPersonModel model, GameObject view,
+        internal PirateController(PersonModel model, GameObject view,
             IActionSystem actionSystem,
             IPersonController hero)
             :base(model, view, actionSystem)
@@ -43,8 +44,8 @@ namespace Assets.Code.Controllers
         public void Initialize()
         {
             Collider collider = _view.GetComponent<Collider>(); 
-            base.Initialize(new LoopLeash(Model.InitPosition), 
-                collider.bounds.center.y / 2);
+            base.Initialize(new LoopLeash(_model.InitPosition), 
+                collider.bounds.size.y / 2);
         }
 
         public new void SelectAction(int action)

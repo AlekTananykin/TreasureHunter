@@ -12,18 +12,18 @@ using System.Threading.Tasks;
 namespace Assets.Code.Things
 {
     [Serializable]
-    internal sealed class Thing: IThing
-    {
+    public sealed class Thing
+    { 
         public LootName Name { get; set; }
         public int Cost { get; set; }
         public LootName Target { get; set; }
         public IDictionary<LootProperties, int> Properties{get;}
-        public IDictionary<LootName, IThing> Components { get; }
+        public IDictionary<LootName, Thing> Components { get; }
 
         internal Thing()
         {
             Properties = new Dictionary<LootProperties, int>();
-            Components = new Dictionary<LootName, IThing>();
+            Components = new Dictionary<LootName, Thing>();
         }
 
         public object Clone()

@@ -15,9 +15,9 @@ namespace Assets.Code.Models
     {
         private System.Random _rand = new System.Random();
 
-        public IList<IThing> CreateThings(int thingsCount)
+        public IList<Thing> CreateThings(int thingsCount)
         {
-            IList<IThing> things = new List<IThing>();
+            IList<Thing> things = new List<Thing>();
             Array values = Enum.GetValues(typeof(LootName));
 
             int thingNumber = 0;
@@ -29,7 +29,7 @@ namespace Assets.Code.Models
                 if (LootName.none == thingName)
                     continue;
 
-                IThing thing = CreateThing(thingName);
+                Thing thing = CreateThing(thingName);
 
                 things.Add(thing);
 
@@ -39,9 +39,9 @@ namespace Assets.Code.Models
             return things;
         }
 
-        private IThing CreateRandomThing(LootName thingName)
+        private Thing CreateRandomThing(LootName thingName)
         {
-            IThing thing = new Thing() { Name = thingName };
+            Thing thing = new Thing() { Name = thingName };
 
             Array values = Enum.GetValues(typeof(LootProperties));
             int propertyCount = _rand.Next(3);
@@ -62,7 +62,7 @@ namespace Assets.Code.Models
             return thing;
         }
 
-        private IThing CreateThing(LootName thingName)
+        private Thing CreateThing(LootName thingName)
         {
             switch (thingName)
             {
@@ -80,9 +80,9 @@ namespace Assets.Code.Models
             }
         }
 
-        private IThing CreateCutlass()
+        private Thing CreateCutlass()
         {
-            IThing thing = new Thing() { 
+            Thing thing = new Thing() { 
                 Name = LootName.cutlass, 
                 Cost = _rand.Next(12), 
                 Target = LootName.none };
@@ -91,9 +91,9 @@ namespace Assets.Code.Models
             return thing;
         }
 
-        private IThing CreateGrenade()
+        private Thing CreateGrenade()
         {
-            IThing thing = new Thing()
+            Thing thing = new Thing()
             {
                 Name = LootName.grenade,
                 Cost = _rand.Next(1, 5),
@@ -104,9 +104,9 @@ namespace Assets.Code.Models
             return thing;
         }
 
-        private IThing CreateGun()
+        private Thing CreateGun()
         {
-            IThing thing = new Thing()
+            Thing thing = new Thing()
             {
                 Name = LootName.gun,
                 Cost = _rand.Next(12),
@@ -116,9 +116,9 @@ namespace Assets.Code.Models
             return thing;
         }
 
-        private IThing CreateScope()
+        private Thing CreateScope()
         {
-            IThing thing = new Thing()
+            Thing thing = new Thing()
             {
                 Name = LootName.scope,
                 Cost = _rand.Next(120),
