@@ -21,6 +21,7 @@ namespace Assets.Code.Controllers
 
         private float _ceenterY;
 
+        PersonScript _script;
         private IPersonMover _personMover;
         private PersonLootSystem _lootSystem;
         private PersonActionSystem _actionSystem;
@@ -51,11 +52,30 @@ namespace Assets.Code.Controllers
 
             _personMover = new PersonMover(leash, _model.RotationSpeed);
             _ceenterY = ceenterY;
+
+            _script = _view.AddComponent<PersonScript>();
+            _script.Damage += ReactToHit;
+
+        }
+
+        private void ReactToHit(uint damage)
+        {
+            _model.Health -= (int)damage;
+            if (_model.Health <= 0)
+            {
+                _model.Health = 0;
+                Debug.Log(_model.ModelId + " is killed. ");
+
+                _model.InitPosition = new Vector3(-100, -100, -100);
+                _view.transform.position = _model.InitPosition;
+                _view.SetActive(false);
+                IsKilled?.Invoke(_model.ModelId.ToString());
+            }
         }
 
         public virtual void Execute(float deltaTime)
         {
-            if (!_personMover.IsNeedMove)
+            if (!_personMover.IsNeedMove || 0 == _model.Health)
                 return;
 
             Vector3 direction;
@@ -113,5 +133,8 @@ namespace Assets.Code.Controllers
         {
            _lootSystem.Taken_Thing -= _subjectSystem.ModifyPerson;
         }
+
+        public Action<string> IsKilled;
+        
     }
 }

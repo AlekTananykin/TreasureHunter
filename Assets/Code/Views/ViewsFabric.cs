@@ -88,5 +88,19 @@ namespace Assets.Code.Views
             }
             return _zond;
         }
+
+        private GameObject _playerPanel;
+        internal GameObject CreatePlayerPanel()
+        {
+            if (null == _playerPanel)
+            {
+                GameObject pannelPrefab =
+                    (GameObject)Resources.Load("Prefabs/Player/Canvas");
+                if (null == pannelPrefab)
+                    throw new GameException("Create Player Panel(Canvas)");
+                _playerPanel = GameObject.Instantiate(pannelPrefab);
+            }
+            return _playerPanel;
+        }
     }
 }

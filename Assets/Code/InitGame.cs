@@ -25,8 +25,10 @@ namespace Assets.Code
             HeroController hero = InitializeCameraAndPlayer(viewsFabric,
                 controllers, model, playerInput, actionsController);
 
+            IPlayerPanel playerPanel = InitPlayerPanel(viewsFabric, controllers, model);
+
             InitializeChests(controllers, model);
-            InitializePirates(controllers, model, actionsController, hero);
+            InitializePirates(controllers, model, actionsController, hero, playerPanel);
         }
 
         private void InitSaveLoadGameController(IPlayerInput playerInput, 
@@ -86,7 +88,8 @@ namespace Assets.Code
         private void InitializePirates(
             ControllersAndModelControllers controllers, GameModel model,
             IActionSystem actionSystem,
-            HeroController hero)
+            HeroController hero,
+            IPlayerPanel playerPanel)
         {
             PiratesViewFabric viewFabric = new PiratesViewFabric();
             for (int i = 0; i < model.Pirates.Length; ++i)
@@ -94,6 +97,8 @@ namespace Assets.Code
                 var pirate = new PirateController(
                 model.Pirates[i], viewFabric.CreateGameObject(), actionSystem, hero);
                 pirate.SelectAction(0);
+
+                pirate.IsKilled += playerPanel.MessageReceiver;
 
                 controllers.Add(pirate);
             }
@@ -115,6 +120,19 @@ namespace Assets.Code
         {
             var chest = new ChestController(chestModel, view);
             controllers.Add(chest);
+        }
+
+        private IPlayerPanel InitPlayerPanel(
+            ViewsFabric viewsFabric,
+            ControllersAndModelControllers controllers, 
+            GameModel model)
+        {
+            GameObject pannelView = viewsFabric.CreatePlayerPanel();
+            
+            var pannelController = new PlayerPanelController(pannelView);
+            controllers.Add(pannelController);
+
+            return pannelController;
         }
     }
 }
