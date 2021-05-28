@@ -3,6 +3,7 @@ using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
 using Assets.Code.Models;
 using Assets.Code.Person;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,12 +76,17 @@ namespace Assets.Code.Controllers
 
         public virtual void Execute(float deltaTime)
         {
+            Execute(deltaTime, _model.Speed);
+        }
+
+        protected void Execute(float deltaTime, float speed)
+        {
             if (!_personMover.IsNeedMove || 0 == _model.Health)
                 return;
 
             Vector3 direction;
             (_view.transform.position, direction) =
-                _personMover.Execute(deltaTime, _model.Speed);
+                _personMover.Execute(deltaTime, speed);
 
             if (direction.sqrMagnitude > 0)
                 _view.transform.forward = direction;
@@ -94,7 +100,7 @@ namespace Assets.Code.Controllers
             _personMover.AddPoint(heroNewPosition);
         }
 
-        protected void HitToPoint(Vector3 targetPoint)
+        protected virtual void HitToPoint(Vector3 targetPoint)
         {
             _actionSystem.ActionToPoint(targetPoint);
         }
