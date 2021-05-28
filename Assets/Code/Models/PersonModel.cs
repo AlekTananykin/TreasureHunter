@@ -1,6 +1,8 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.SaveLoad;
 using Assets.Code.Things;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,25 +12,32 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    internal class PersonModel: IPersonModel
+    internal class PersonModel: ModelBase
     {
-        public Vector3 InitPosition { get; set; }
-        public float Speed { get; set; }
+        public Vector3 InitPosition;
+        public float Speed;
 
-        public int Health { get; set; }
-        public int MaxHealth { get; set; }
-        
-        public int Skill { get; set; }
+        public int Health;
+        public int MaxHealth;
+        public int LoadCapacity;
 
-        public IDictionary<LootName, IList<IThing>> BagItems { get; }
-        public IList<IThing> AppliedItems { get; }
+        public int Skill;
 
-        public float RotationSpeed { get; set; }
+        private readonly IDictionary<LootName, IList<Thing>> bagItems;
+
+        public IDictionary<LootName, IList<Thing>> GetBagItems()
+        {
+            return bagItems;
+        }
+
+        public IList<Thing> AppliedItems;
+
+        public float RotationSpeed;
 
         public PersonModel()
         {
-            BagItems = new Dictionary<LootName, IList<IThing>>();
-            AppliedItems = new List<IThing>();
+            bagItems = new Dictionary<LootName, IList<Thing>>();
+            AppliedItems = new List<Thing>();
         }
     }
 }

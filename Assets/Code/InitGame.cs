@@ -12,30 +12,41 @@ namespace Assets.Code
 {
     sealed class InitGame
     {
-        public InitGame(ControllersStorage controllers, GameModel model,
-            IPlayerInput playerInput)
+        public InitGame(ControllersAndModelControllers controllers, GameModel model,
+            IPlayerInput playerInput, string saveGamePath)
         {
-            ViewsFabric viewsFabric = new ViewsFabric();
+            InitSaveLoadGameController(playerInput, model, 
+                controllers, saveGamePath);
 
+            ViewsFabric viewsFabric = new ViewsFabric();
 
             IActionSystem actionsController = InitActions(controllers);
 
             HeroController hero = InitializeCameraAndPlayer(viewsFabric,
                 controllers, model, playerInput, actionsController);
 
-            InitializeChests(controllers, model);
-            InitializePirates(controllers, model, actionsController, hero);
+            IPlayerPanel playerPanel = InitPlayerPanel(viewsFabric, controllers, model);
 
+            InitializeChests(controllers, model);
+            InitializePirates(controllers, model, actionsController, hero, playerPanel);
         }
 
-        IActionSystem InitActions(ControllersStorage controllers)
+        private void InitSaveLoadGameController(IPlayerInput playerInput, 
+            GameModel model, ControllersAndModelControllers controllers, string saveGamePath)
+        {
+            var saveLoadController = new SaveLoadGameController<GameModel>(
+                playerInput, model, controllers, saveGamePath);
+            controllers.Add(saveLoadController);
+        }
+
+        IActionSystem InitActions(ControllersAndModelControllers controllers)
         {
             IActionSystem actionSystem = new ActionsController();
             if (!(actionSystem is IInteractionObject))
                 throw new GameException(
                     "InitGame.InitActions: ActionsController is not IAttackSystem");
 
-            controllers.Add(actionSystem as IInteractionObject);
+            controllers.Add(actionSystem);
 
             actionSystem.Add(LootName.gun, new ShootoutController<BombViewFabric>());
             actionSystem.Add(LootName.cutlass, new PrickAttackController());
@@ -45,7 +56,7 @@ namespace Assets.Code
 
         private HeroController InitializeCameraAndPlayer(
             ViewsFabric viewsFabric,
-            ControllersStorage controllers, GameModel model,
+            ControllersAndModelControllers controllers, GameModel model,
             IPlayerInput playerInput,
             IActionSystem actionSysterm)
         {
@@ -75,9 +86,10 @@ namespace Assets.Code
         }
 
         private void InitializePirates(
-            ControllersStorage controllers, GameModel model,
+            ControllersAndModelControllers controllers, GameModel model,
             IActionSystem actionSystem,
-            HeroController hero)
+            HeroController hero,
+            IPlayerPanel playerPanel)
         {
             PiratesViewFabric viewFabric = new PiratesViewFabric();
             for (int i = 0; i < model.Pirates.Length; ++i)
@@ -86,12 +98,14 @@ namespace Assets.Code
                 model.Pirates[i], viewFabric.CreateGameObject(), actionSystem, hero);
                 pirate.SelectAction(0);
 
+                pirate.IsKilled += playerPanel.MessageReceiver;
+
                 controllers.Add(pirate);
             }
         }
 
         private void InitializeChests(
-            ControllersStorage controllers, GameModel model)
+            ControllersAndModelControllers controllers, GameModel model)
         {
             ChestViewFabric viewFabric = new ChestViewFabric();
             for (int i = 0; i < model.Chests.Length; ++i)
@@ -102,10 +116,23 @@ namespace Assets.Code
         }
 
         private void InitializeSingleChest(ChestModel chestModel, 
-            GameObject view, ControllersStorage controllers)
+            GameObject view, ControllersAndModelControllers controllers)
         {
             var chest = new ChestController(chestModel, view);
             controllers.Add(chest);
+        }
+
+        private IPlayerPanel InitPlayerPanel(
+            ViewsFabric viewsFabric,
+            ControllersAndModelControllers controllers, 
+            GameModel model)
+        {
+            GameObject pannelView = viewsFabric.CreatePlayerPanel();
+            
+            var pannelController = new PlayerPanelController(pannelView);
+            controllers.Add(pannelController);
+
+            return pannelController;
         }
     }
 }

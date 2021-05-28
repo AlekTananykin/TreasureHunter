@@ -8,25 +8,27 @@ namespace Assets.Code.Auxiliary
 {
     public enum LootName
     {
-        none,
-        cutlass,
-        grenade,
-        gun,
-        scope
+        none = 0,
+        cutlass = 1,
+        grenade = 2,
+        gun = 3,
+        scope = 4,
+
+        jackboots = 5,
+        carryingBelt = 6,
+        stoneOfLife = 7,
+        encyclopedia = 8
+
     }
 
     public enum LootProperties
     {
-        Damage,
-        Accuration,
-        MovingSpeed,
-        Health,
-        Force,
-        Armor
+        Damage = 0,
+        Accuration = 1,
+        MovingSpeed = 2,
+        Health = 3,
+        Force = 4,
+        Armor = 5
     }
 
-    public enum ActionCode
-    {
-        zero, one, two, three, four, five, six, seven, eight, nine
-    }
 }

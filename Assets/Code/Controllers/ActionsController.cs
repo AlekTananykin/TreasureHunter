@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    class ActionsController: IExecute, IInitialization, IActionSystem
+    internal sealed class ActionsController : IExecute, IInitialization, IActionSystem
     {
-        private IDictionary<LootName, IAction> _attackSystems = 
+        private IDictionary<LootName, IAction> _attackSystems =
             new Dictionary<LootName, IAction>();
 
         private ControllersStorage _controllers = new ControllersStorage();
@@ -27,7 +28,7 @@ namespace Assets.Code.Controllers
             _attackSystems.Add(name, action);
         }
 
-        public bool Attack(Vector3 place, Vector3 targetPoint, IThing attackThing)
+        public bool Attack(Vector3 place, Vector3 targetPoint, Thing attackThing)
         {
             if (!_attackSystems.TryGetValue(attackThing.Name, out IAction attack))
                 return false;

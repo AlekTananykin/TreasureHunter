@@ -1,4 +1,5 @@
-﻿using Assets.Code.Interfaces;
+﻿using Assets.Code.Exceptions;
+using Assets.Code.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace Assets.Code.Controllers
 {
-    sealed class ControllersStorage : 
+    class ControllersStorage : 
         IExecute, ILateExecute, IInitialization, ICleanup
     {
-        List<IExecute> _executeStorage;
-        List<IInitialization> _intializeStorage;
-        List<ILateExecute> _lateExecuteStorage;
-        List<ICleanup> _cleanupStorage;
-        
+        IList<IExecute> _executeStorage;
+        IList<IInitialization> _intializeStorage;
+        IList<ILateExecute> _lateExecuteStorage;
+        IList<ICleanup> _cleanupStorage;
+
+
         public ControllersStorage()
         {
             _executeStorage = new List<IExecute>();

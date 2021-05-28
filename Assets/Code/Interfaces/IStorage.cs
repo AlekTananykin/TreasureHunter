@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Auxiliary;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Assets.Code.Interfaces
 {
     interface IStorage
     {
-        IList<IThing> GetItems();
+        IList<Thing> GetItems();
     }
 }

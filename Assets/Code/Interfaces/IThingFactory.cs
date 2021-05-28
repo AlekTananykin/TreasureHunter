@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Auxiliary;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Assets.Code.Interfaces
 {
     interface IThingFactory
     {
-        IThing CreateThing(LootName name);
+        Thing Create(LootName name);
     }
 }
