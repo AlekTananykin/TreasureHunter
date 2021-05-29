@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Code.Models
+namespace Assets.Code.Interfaces
 {
-    class PlayerModel
+    interface IPersonState
     {
-
+        float Speed { get; }
+        bool IsAttackEnable { get; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.Things;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Assets.Code.Controllers
         private float _attackDistance = 1f;
         private const uint _hitCount = 100;
 
-        public bool Attack(Vector3 place, Vector3 targetPoint, IThing actionThing)
+        public bool Attack(Vector3 place, Vector3 targetPoint, Thing actionThing)
         {
             Ray ray = new Ray(place, (targetPoint - place).normalized);
             if (!Physics.Raycast(ray, out RaycastHit hitInfo, _attackDistance))

@@ -11,9 +11,10 @@ using UnityEngine;
 
 namespace Assets.Code.Controllers
 {
-    internal sealed class HeroController: PersonController, IInitialization, IManagedPerson
+    internal sealed class HeroController: PersonController, IInitialization, 
+        IManagedPerson
     {
-        internal HeroController(IPersonModel model, GameObject view,
+        internal HeroController(PersonModel model, GameObject view,
              IActionSystem actionSystem)
             :base(model, view, actionSystem)
         {
@@ -21,7 +22,7 @@ namespace Assets.Code.Controllers
 
         public void Initialize()
         {
-            Initialize(new QeueLeash(Model.InitPosition), 0f);
+            Initialize(new QeueLeash(_model.InitPosition), 0f);
         }
 
         public void GoToPoint(Vector3 position)
@@ -43,5 +44,6 @@ namespace Assets.Code.Controllers
         {
             base.TakeLoot(targetPoint);
         }
+        
     }
 }

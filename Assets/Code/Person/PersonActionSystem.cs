@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Exceptions;
 using Assets.Code.Interfaces;
+using Assets.Code.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace Assets.Code.Person
 {
     internal sealed class PersonActionSystem
     {
-        internal GameObject View { get; set; }
-        internal IPersonModel Model { get; set; }
+        internal GameObject View;
+        internal PersonModel Model;
         private int _selectedAction = 0;
         private IActionSystem _actionSystem;
 

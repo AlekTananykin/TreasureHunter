@@ -1,4 +1,5 @@
 ﻿using Assets.Code.Interfaces;
+using Assets.Code.Things;
 using Assets.Code.Views;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Assets.Code.Controllers
                     new BombFabricTemplate(), _poolSize);
         }
 
-        public bool Attack(Vector3 place, Vector3 targetPoint, IThing actionThing)
+        public bool Attack(Vector3 place, Vector3 targetPoint, Thing actionThing)
         {
             GameObject bullet = _bombsPool.Create();
             bullet.transform.position = place;

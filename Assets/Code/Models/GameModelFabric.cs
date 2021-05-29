@@ -20,7 +20,7 @@ namespace Assets.Code.Models
             GameModel model = new GameModel();
             model.Hero = CreateHeroModel();
             model.Camera = CreateCameraModel(model.Hero.InitPosition);
-
+            
             model.Chests = new ChestModel[piratesNum];
             for (int i = 0; i < piratesNum; ++i)
             {

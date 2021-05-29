@@ -1,5 +1,8 @@
 ﻿using Assets.Code.Auxiliary;
 using Assets.Code.Interfaces;
+using Assets.Code.SaveLoad;
+using Assets.Code.Things;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +12,10 @@ using UnityEngine;
 
 namespace Assets.Code.Models
 {
-    sealed  internal class ChestModel
+    sealed  internal class ChestModel : ModelBase
     {
-        public IList<IThing> Items { get; set; }
-        
-        public Vector3 Position { get; set; }
+        public IList<Thing> Items;
+
+        public Vector3 Position;
     }
 }
