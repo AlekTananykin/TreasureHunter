@@ -75,16 +75,22 @@ namespace Assets.Code.Controllers
 
         public virtual void Execute(float deltaTime)
         {
+            Execute(deltaTime, _model.Speed);
+        }
+
+        protected virtual void Execute(float deltaTime, float speed)
+        {
             if (!_personMover.IsNeedMove || 0 == _model.Health)
                 return;
 
             Vector3 direction;
             (_view.transform.position, direction) =
-                _personMover.Execute(deltaTime, _model.Speed);
+                _personMover.Execute(deltaTime, speed);
 
             if (direction.sqrMagnitude > 0)
                 _view.transform.forward = direction;
         }
+
 
         protected void AddNewTargetPoint(Vector3 position)
         {
@@ -94,7 +100,7 @@ namespace Assets.Code.Controllers
             _personMover.AddPoint(heroNewPosition);
         }
 
-        protected void HitToPoint(Vector3 targetPoint)
+        protected virtual void HitToPoint(Vector3 targetPoint)
         {
             _actionSystem.ActionToPoint(targetPoint);
         }

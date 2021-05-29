@@ -27,7 +27,8 @@ namespace Assets.Code.Controllers
 
         public override void Execute(float deltaTime)
         {
-            Execute(deltaTime, _states[(int)CurrentState].Speed);
+            base.Execute(
+                deltaTime, _states[(int)CurrentState].Speed);
         }
 
         protected override void HitToPoint(Vector3 targetPoint)
